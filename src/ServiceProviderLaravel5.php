@@ -32,5 +32,10 @@ class ServiceProviderLaravel5 extends LaravelServiceProvider
         });
 
         $this->app->alias('bearychat', 'ElfSundae\BearyChat\Laravel\ClientManager');
+
+        if (class_exists('Illuminate\Foundation\AliasLoader')) {
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader->alias('BearyChat', \ElfSundae\BearyChat\Laravel\Facade::class);
+        }
     }
 }
