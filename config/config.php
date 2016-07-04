@@ -22,7 +22,7 @@ return [
         'webhook' => '',
 
         /**
-         * BearyChat Message Defaults.
+         * (Optional) BearyChat Message Defaults.
          *
          * All keys of message defaults are listed in ElfSundae\BearyChat\MessageDefaults.
          *
