@@ -75,7 +75,10 @@ class ClientManager
     {
         $config = $this->getConfig($name);
 
-        return new Client($config['webhook'], $config['message_defaults']);
+        return new Client(
+            $config['webhook'],
+            isset($config['message_defaults']) ? $config['message_defaults'] : []
+        );
     }
 
     /**
