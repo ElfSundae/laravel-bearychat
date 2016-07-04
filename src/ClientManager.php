@@ -20,6 +20,12 @@ class ClientManager
      */
     protected $clients = [];
 
+    protected $isLaravel4 = false;
+
+    protected $isLumen = false;
+
+    protected $isLaravel5 = false;
+
     /**
      * Create a new client manager instance.
      *
@@ -29,6 +35,12 @@ class ClientManager
     public function __construct($app)
     {
         $this->app = $app;
+
+        $appVersion = $app::VERSION;
+
+        $this->isLumen = str_contains($appVersion, 'Lumen');
+        $this->isLaravel4 = (int)$appVersion == 4;
+        $this->isLaravel5 = (int)$appVersion == 5;
     }
 
     /**
@@ -89,6 +101,10 @@ class ClientManager
      */
     protected function getConfig($name)
     {
+        if ($this->isLaravel4) {
+            return $this->app['config']->get("bearychat::{$name}");
+        }
+
         return $this->app['config']["bearychat.{$name}"];
     }
 }

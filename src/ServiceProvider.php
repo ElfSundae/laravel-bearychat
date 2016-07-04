@@ -13,12 +13,11 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected $defer = false;
 
-    /**
-     * Actual provider
-     *
-     * @var \Illuminate\Support\ServiceProvider
-     */
-    protected $provider;
+    protected $isLaravel4 = false;
+
+    protected $isLumen = false;
+
+    protected $isLaravel5 = false;
 
     /**
      * Create a new service provider instance.
@@ -30,7 +29,11 @@ class ServiceProvider extends LaravelServiceProvider
     {
         parent::__construct($app);
 
-        $this->provider = $this->getProvider();
+        $appVersion = $app::VERSION;
+
+        $this->isLumen = str_contains($appVersion, 'Lumen');
+        $this->isLaravel4 = (int)$appVersion == 4;
+        $this->isLaravel5 = (int)$appVersion == 5;
     }
 
     /**
@@ -40,7 +43,13 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        return $this->provider->boot();
+        if ($this->isLaravel4) {
+            $this->package('elfsundae/bearychat-laravel', 'bearychat', __DIR__);
+        } else {
+            $this->publishes([
+                __DIR__.'/config/config.php' => config_path('bearychat.php')
+            ]);
+        }
     }
 
     /**
@@ -50,30 +59,20 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        return $this->provider->register();
-    }
-
-    /**
-     * Return ServiceProvider according to Laravel version
-     *
-     * @return mixed
-     */
-    protected function getProvider()
-    {
-        $app = $this->app;
-        $appVersion = $app::VERSION;
-
-        $provider = get_class();
-
-        if (str_contains($appVersion, 'Lumen')) {
-            $provider .= 'Lumen';
-        } else if (version_compare($appVersion, '5.0', '<')) {
-            $provider .= 'Laravel4';
-        } else {
-            $provider .= 'Laravel5';
+        if ($this->isLaravel5) {
+            $this->mergeConfigFrom(__DIR__.'/config/config.php', 'bearychat');
         }
 
-        return new $provider($app);
+        $this->app->singleton('bearychat', function () {
+            return new ClientManager($this->app);
+        });
+
+        $this->app->alias('bearychat', 'ElfSundae\BearyChat\Laravel\ClientManager');
+
+        if (class_exists('Illuminate\Foundation\AliasLoader')) {
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader->alias('BearyChat', \ElfSundae\BearyChat\Laravel\Facade::class);
+        }
     }
 
     /**
@@ -83,6 +82,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function provides()
     {
-        return array('bearychat');
+        return ['bearychat'];
     }
 }
