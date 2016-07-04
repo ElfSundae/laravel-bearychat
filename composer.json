@@ -2,7 +2,6 @@
     "name": "elfsundae/bearychat-laravel",
     "description": "A Laravel package for sending message to the BearyChat with the Incoming Webhook.",
     "keywords": ["bearychat", "laravel", "incoming webhook", "robot"],
-    "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/ElfSundae/BearyChat-Laravel",
     "authors": [
@@ -13,11 +12,15 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "elfsundae/bearychat": "~1.1"
+        "illuminate/support": "4.2.*|5.*",
+        "elfsundae/bearychat": "~1.0"
     },
     "autoload": {
         "psr-4": {
             "ElfSundae\\BearyChat\\Laravel\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     }
 }
