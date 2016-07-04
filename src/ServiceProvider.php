@@ -60,7 +60,8 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function getProvider()
     {
-        $appVersion = $this->app->version();
+        $app = $this->app;
+        $appVersion = $app::VERSION;
 
         $provider = get_class();
 
@@ -72,7 +73,7 @@ class ServiceProvider extends LaravelServiceProvider
             $provider .= 'Laravel5';
         }
 
-        return new $provider($this->app);
+        return new $provider($app);
     }
 
     /**
