@@ -14,7 +14,7 @@ return [
     'default' => [
 
         /**
-         * BearyChat Incoming Webhook URL.
+         * Incoming Webhook URL.
          *
          * You can get the webhook URL from an Incoming Robot.
          * https://bearychat.kf5.com/posts/view/26755/
@@ -22,7 +22,7 @@ return [
         'webhook' => '',
 
         /**
-         * (Optional) BearyChat Message Defaults.
+         * (Optional) Message Defaults.
          *
          * All keys of message defaults are listed in ElfSundae\BearyChat\MessageDefaults.
          *
