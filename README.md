@@ -72,7 +72,7 @@ BearyChat::client('dev')->send('foo');
 bearychat('admin')->send('bar');
 ```
 
-For more advanced usage, please read [the documentation][2] of the BearyChat PHP package.
+> **For more advanced usage, please read [the documentation][2] of the BearyChat PHP package.**
 
 ## License
 
