@@ -44,7 +44,7 @@ class ServiceProvider extends LaravelServiceProvider
     public function boot()
     {
         if ($this->isLaravel4) {
-            $this->package('elfsundae/bearychat-laravel', 'bearychat', __DIR__);
+            $this->package('elfsundae/laravel-bearychat', 'bearychat', __DIR__);
         } else {
             $this->publishes([
                 $this->getConfigFromPath() => $this->getConfigToPath()

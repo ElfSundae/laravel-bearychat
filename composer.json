@@ -1,9 +1,9 @@
 {
-    "name": "elfsundae/bearychat-laravel",
+    "name": "elfsundae/laravel-bearychat",
     "description": "A Laravel package for sending message to the BearyChat with the Incoming Webhook.",
     "keywords": ["bearychat", "laravel", "incoming webhook", "robot"],
     "license": "MIT",
-    "homepage": "https://github.com/ElfSundae/BearyChat-Laravel",
+    "homepage": "https://github.com/ElfSundae/Laravel-BearyChat",
     "authors": [
         {
             "name": "Elf Sundae",

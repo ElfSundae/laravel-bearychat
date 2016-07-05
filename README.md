@@ -8,7 +8,7 @@ This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4)
 
 You can install this package using the [Composer][] manager:
 ```
-composer require elfsundae/bearychat-laravel
+composer require elfsundae/laravel-bearychat
 ```
 After updating composer, you may configure your app according to the following steps:
 
@@ -32,9 +32,9 @@ Add the service provider to the `providers` array in `config/app.php`:
 ```
 Then publish the config file:
 ```shell
-$ php artisan config:publish elfsundae/bearychat-laravel
+$ php artisan config:publish elfsundae/laravel-bearychat
 ```
-Next, configure your BearyChat clients by editing the config file in `app/config/packages/elfsundae/bearychat-laravel/config.php`.
+Next, configure your BearyChat clients by editing the config file in `app/config/packages/elfsundae/laravel-bearychat/config.php`.
 
 ### Lumen
 
@@ -44,7 +44,7 @@ $app->register(ElfSundae\BearyChat\Laravel\ServiceProvider::class);
 ```
 Then copy the config file from this package to your app's `config/bearychat.php`:
 ```shell
-$ cp vendor/elfsundae/bearychat-laravel/src/config/config.php config/bearychat.php
+$ cp vendor/elfsundae/laravel-bearychat/src/config/config.php config/bearychat.php
 ```
 Next, you should enable this config file in `bootstrap/app.php`:
 ```php
