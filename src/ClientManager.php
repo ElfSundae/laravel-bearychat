@@ -22,10 +22,6 @@ class ClientManager
 
     protected $isLaravel4 = false;
 
-    protected $isLumen = false;
-
-    protected $isLaravel5 = false;
-
     /**
      * Create a new client manager instance.
      *
@@ -36,11 +32,9 @@ class ClientManager
     {
         $this->app = $app;
 
-        $appVersion = $app::VERSION;
+        $appVersion = method_exists($app, 'version') ? $app->version() : $app::VERSION;
 
-        $this->isLumen = str_contains($appVersion, 'Lumen');
         $this->isLaravel4 = (int)$appVersion == 4;
-        $this->isLaravel5 = (int)$appVersion == 5;
     }
 
     /**

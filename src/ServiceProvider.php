@@ -29,7 +29,7 @@ class ServiceProvider extends LaravelServiceProvider
     {
         parent::__construct($app);
 
-        $appVersion = $app::VERSION;
+        $appVersion = method_exists($app, 'version') ? $app->version() : $app::VERSION;
 
         $this->isLumen = str_contains($appVersion, 'Lumen');
         $this->isLaravel4 = (int)$appVersion == 4;
@@ -47,8 +47,8 @@ class ServiceProvider extends LaravelServiceProvider
             $this->package('elfsundae/bearychat-laravel', 'bearychat', __DIR__);
         } else {
             $this->publishes([
-                __DIR__.'/config/config.php' => config_path('bearychat.php')
-            ]);
+                $this->getConfigFromPath() => $this->getConfigToPath()
+            ], 'config');
         }
     }
 
@@ -59,8 +59,8 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        if ($this->isLaravel5) {
-            $this->mergeConfigFrom(__DIR__.'/config/config.php', 'bearychat');
+        if (!$this->isLaravel4) {
+            $this->mergeConfigFrom($this->getConfigFromPath(), 'bearychat');
         }
 
         $this->app->singleton('bearychat', function () {
@@ -69,9 +69,40 @@ class ServiceProvider extends LaravelServiceProvider
 
         $this->app->alias('bearychat', 'ElfSundae\BearyChat\Laravel\ClientManager');
 
+        $this->aliasFacades();
+    }
+
+    /**
+     * Get the source config path.
+     *
+     * @return string
+     */
+    protected function getConfigFromPath()
+    {
+        return __DIR__.'/config/config.php';
+    }
+
+    /**
+     * Get the config destination path.
+     *
+     * @return string
+     */
+    protected function getConfigToPath()
+    {
+        return $this->isLumen ?
+                base_path('config/bearychat.php') :
+                config_path('bearychat.php');
+    }
+
+    protected function aliasFacades()
+    {
         if (class_exists('Illuminate\Foundation\AliasLoader')) {
+            // For Laravel
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('BearyChat', \ElfSundae\BearyChat\Laravel\Facade::class);
+        } else {
+            // For Lumen
+            class_alias('ElfSundae\BearyChat\Laravel\Facade', 'BearyChat');
         }
     }
 
