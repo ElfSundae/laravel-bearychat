@@ -56,7 +56,7 @@ If you would like to use the `BearyChat` facade, you should uncomment the `$app-
 
 ## License
 
-The BearyChat PHP package is available under the [MIT license](LICENSE).
+The BearyChat Laravel package is available under the [MIT license](LICENSE).
 
 [1]: https://github.com/ElfSundae/BearyChat
 [Webhook]: https://bearychat.com/integrations/incoming
