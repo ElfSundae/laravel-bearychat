@@ -50,6 +50,8 @@ Next, you should enable this config file in `bootstrap/app.php`:
 ```php
 $app->configure('bearychat');
 ```
+Now you can configure your BearyChat clients by editing `config/bearychat.php`.
+
 If you would like to use the `BearyChat` facade, you should uncomment the `$app->withFacades()` call in your `bootstrap/app.php` file.
 
 ## License
