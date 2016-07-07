@@ -29,7 +29,7 @@ return [
          * Supported: "channel", "user", "markdown" (boolean), "notification", "attachment_color".
          */
         'message_defaults' => [
-            'markdown' => true,
+            // 'markdown' => true,
         ]
 
     ],
