@@ -145,6 +145,37 @@ dispatch(new \App\Jobs\SendBearyChat(
 ));
 ```
 
+### Sending Laravel Exceptions
+
+A common usage of BearyChat is sending Laravel exceptions, just override the `report` method of your exception handler:
+
+```php
+/**
+ * Report or log an exception.
+ *
+ * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+ *
+ * @param  \Exception  $e
+ * @return void
+ */
+public function report(Exception $e)
+{
+    if ($this->shouldReport($e)) {
+        dispatch(new \App\Jobs\SendBearyChat(
+            bearychat('server')->text('New Exception!')
+            ->notification('New Exception: '.get_class($e))
+            ->add($e, get_class($e))
+            ->add([
+                'URL' => app('request')->fullUrl(),
+                'UserAgent' => app('request')->server('HTTP_USER_AGENT')
+            ])
+        ));
+    }
+
+    parent::report($e);
+}
+```
+
 ## License
 
 The BearyChat Laravel package is available under the [MIT license](LICENSE).
