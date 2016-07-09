@@ -19,7 +19,7 @@ return [
          * You can get the webhook URL from an Incoming Robot.
          * https://bearychat.kf5.com/posts/view/26755/
          */
-        'webhook' => '',
+        'webhook' => 'https://hook.bearychat.com/your-incoming-uri',
 
         /**
          * (Optional) Message Defaults.
@@ -33,5 +33,9 @@ return [
         ]
 
     ],
+
+    // 'admin' => [
+    //     'webhook' => '',
+    // ],
 
 ];
