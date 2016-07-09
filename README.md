@@ -64,7 +64,7 @@ BearyChat::send('message');
 bearychat()->sendTo('@elf', 'Hi!');
 ```
 
-You may access various clients via the `client` method of the `BearyChat` facade, or pass a client name to the `bearychat()` function. The name should correspond to one of the clients listed in your bearychat configuration file. By default, a client named "default" will be used.
+You may access various clients via the `client` method of the `BearyChat` facade, or pass a client name to the `bearychat()` function. The name should correspond to one of the clients listed in your bearychat configuration file. By default, a client named `"default"` will be used.
 
 ```php
 BearyChat::client('dev')->send('foo');
@@ -73,6 +73,77 @@ bearychat('admin')->send('bar');
 ```
 
 > **For more advanced usage, please [read the documentation][2] of the BearyChat PHP package.**
+
+### Asynchronous Message
+
+Sending a BearyChat message actually requests the Incoming Webhook, so it will slow down your PHP execution. For sending asynchronous messages, You can queue them using Laravel's awesome [queue system][].
+
+Here is an example of the Queueable Job for Laravel 5.2:
+
+```php
+<?php
+
+namespace App\Jobs;
+
+use App\Jobs\Job;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use ElfSundae\BearyChat\Message;
+use Exception;
+use Log;
+
+class SendBearyChat extends Job implements ShouldQueue
+{
+    use SerializesModels, InteractsWithQueue;
+
+    /**
+     * The Message instance for sending.
+     *
+     * @var \ElfSundae\BearyChat\Message
+     */
+    protected $message;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * Execute the job.
+     */
+    public function handle()
+    {
+        if ($this->message instanceof Message) {
+            try {
+                $this->message->send();
+            } catch (Exception $e) {
+                Log::error(
+                    'Exception when processing '.get_class($this)." \n".$e,
+                    $this->message->toArray()
+                );
+                $this->release(10);
+            }
+        } else {
+            $this->delete();
+        }
+    }
+}
+```
+
+And you can dispatch `SendBearyChat` jobs by calling the `dispatch` method on any object which includes the `DispatchesJobs` trait, or just use the `dispatch()` global function:
+
+```php
+$order = PayOrder::create($request->all());
+
+dispatch(new \App\Jobs\SendBearyChat(
+    bearychat()->text('New order!')
+    ->add($order, $order->name, $order->image_url)
+));
+```
 
 ## License
 
@@ -83,3 +154,4 @@ The BearyChat Laravel package is available under the [MIT license](LICENSE).
 [Webhook]: https://bearychat.com/integrations/incoming
 [BearyChat]: https://bearychat.com
 [Composer]: https://getcomposer.org
+[queue system]: https://laravel.com/docs/5.2/queues
