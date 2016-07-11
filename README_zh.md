@@ -4,6 +4,7 @@
 
 该扩展包兼容 [Laravel 5](#laravel-5) 、 [Laravel 4](#laravel-4) 和 [Lumen](#lumen)。
 
++ [更新日志](CHANGELOG.md)
 + :us: [**Documentation in English**](README.md)
 
 ## 安装
