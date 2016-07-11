@@ -66,7 +66,7 @@ BearyChat::send('message');
 bearychat()->sendTo('@elf', 'Hi!');
 ```
 
-调用 `BearyChat` 门面的 `client` 方法并传入一个 client 名字，或者将 client 名字传入 `bearychat()` 函数，可以得到其他不同的 BearyChat `Client` 实例。作为参数的 client 名字必须在 BearyChat 的配置文件中事先定义。如果不传 client 名字参数，默认会使用 `"default"` 作为 client 的名字。
+调用 `BearyChat` 门面的 `client` 方法并传入一个 client 名字，或者将 client 名字传入 `bearychat()` 函数，可以得到其他不同的 BearyChat `Client` 实例。作为参数的 client 名字必须在 BearyChat 的配置文件中事先定义。
 
 ```php
 BearyChat::client('dev')->send('foo');

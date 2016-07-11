@@ -66,7 +66,7 @@ BearyChat::send('message');
 bearychat()->sendTo('@elf', 'Hi!');
 ```
 
-You may access various clients via the `client` method of the `BearyChat` facade, or pass a client name to the `bearychat()` function. The name should correspond to one of the clients listed in your BearyChat configuration file. By default, a client named `"default"` will be used.
+You may access various clients via the `client` method of the `BearyChat` facade, or pass a client name to the `bearychat()` function. The name should correspond to one of the clients listed in your BearyChat configuration file.
 
 ```php
 BearyChat::client('dev')->send('foo');
