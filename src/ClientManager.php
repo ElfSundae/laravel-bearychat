@@ -20,6 +20,11 @@ class ClientManager
      */
     protected $clients = [];
 
+    /**
+     * Indicate whether the application version is Laravel 4.
+     *
+     * @var boolean
+     */
     protected $isLaravel4 = false;
 
     /**
@@ -55,8 +60,12 @@ class ClientManager
      * @param  string  $name
      * @return \ElfSundae\BearyChat\Client
      */
-    public function client($name = 'default')
+    public function client($name = null)
     {
+        if (is_null($name)) {
+            $name = $this->getConfig('default');
+        }
+
         return $this->clients[$name] = $this->get($name);
     }
 
@@ -79,7 +88,7 @@ class ClientManager
      */
     protected function resolve($name)
     {
-        $config = $this->getConfig($name);
+        $config = $this->getConfig('clients.'.$name);
 
         return new Client(
             $config['webhook'],
@@ -88,7 +97,7 @@ class ClientManager
     }
 
     /**
-     * Get the BearyChat client configuration.
+     * Get the BearyChat configuration.
      *
      * @param  string  $name
      * @return array

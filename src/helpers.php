@@ -2,7 +2,7 @@
 
 if (! function_exists('bearychat'))
 {
-    function bearychat($name = 'default')
+    function bearychat($name = null)
     {
         return app('bearychat')->client($name);
     }

@@ -4,38 +4,47 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | BearyChat Clients
+    | Default BearyChat Client Name
     |--------------------------------------------------------------------------
     |
-    | Here you may define BearyChat clients for your application.
+    | Here you may specify which of the BearyChat clients below you wish to use
+    | as your default client.
     |
     */
 
-    'default' => [
+    'default' => env('BEARYCHAT_CLIENT', 'default'),
 
-        /**
-         * Incoming Webhook URL.
-         *
-         * You can get the webhook URL from an Incoming Robot.
-         * https://bearychat.kf5.com/posts/view/26755/
-         */
-        'webhook' => 'https://hook.bearychat.com/your-incoming-uri',
+    /*
+    |--------------------------------------------------------------------------
+    | BearyChat Clients
+    |--------------------------------------------------------------------------
+    |
+    | Here are each of the BearyChat clients setup for your application.
+    |
+    | Supported keys:
+    |
+    |   'webhook':      The Incoming Webhook URL. You can get it from an Incoming Robot.
+    |                   See https://bearychat.kf5.com/posts/view/26755/
+    |   'message_defaults': Optional message defaults. All keys of message defaults
+    |                       are listed in `ElfSundae\BearyChat\MessageDefaults`.
+    |                       Supported: "channel", "user", "markdown" (boolean),
+    |                       "notification", "attachment_color".
+    |
+    */
 
-        /**
-         * (Optional) Message Defaults.
-         *
-         * All keys of message defaults are listed in ElfSundae\BearyChat\MessageDefaults.
-         *
-         * Supported: "channel", "user", "markdown" (boolean), "notification", "attachment_color".
-         */
-        'message_defaults' => [
-            // 'markdown' => true,
-        ]
+    'clients' => [
+
+        'default' => [
+            'webhook' => '',
+            // 'message_defaults' => [
+            //     'attachment_color' => '#f5f5f5',
+            // ]
+        ],
+
+        // 'admin' => [
+        //     'webhook' => '',
+        // ],
 
     ],
-
-    // 'admin' => [
-    //     'webhook' => '',
-    // ],
 
 ];
