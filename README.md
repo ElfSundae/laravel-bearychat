@@ -148,6 +148,24 @@ dispatch(new \App\Jobs\SendBearyChat(
 ));
 ```
 
+Also you may create a helper function to dispatch this job:
+
+```php
+if (! function_exists('dispatch_bearychat'))
+{
+    /**
+     * Dispatch a SendBearyChat job.
+     *
+     * @param  \ElfSundae\BearyChat\Message  $message
+     * @return mixed
+     */
+    function dispatch_bearychat($message)
+    {
+        return dispatch(new \App\Jobs\SendBearyChat($message));
+    }
+}
+```
+
 ### Sending Laravel Exceptions
 
 A common usage of BearyChat is real-time reporting Laravel exceptions. Just override the `report` method of your exception handler:

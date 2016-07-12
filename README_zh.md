@@ -148,6 +148,24 @@ dispatch(new \App\Jobs\SendBearyChat(
 ));
 ```
 
+或者，你也可以创建一个帮助函数来派遣发送任务：
+
+```php
+if (! function_exists('dispatch_bearychat'))
+{
+    /**
+     * Dispatch a SendBearyChat job.
+     *
+     * @param  \ElfSundae\BearyChat\Message  $message
+     * @return mixed
+     */
+    function dispatch_bearychat($message)
+    {
+        return dispatch(new \App\Jobs\SendBearyChat($message));
+    }
+}
+```
+
 ### 报告 Laravel 异常
 
 BearyChat 的一个常见用法是实时报告 Laravel 应用的异常或错误日志。要实现这个功能，只需要重载现有的异常处理类中的 `report` 方法，并添加发送异常信息到 BearyChat ：
