@@ -163,19 +163,20 @@ A common usage of BearyChat is real-time reporting Laravel exceptions. Just over
  */
 public function report(Exception $e)
 {
-    if ($this->shouldReport($e)) {
+    parent::report($e);
+
+    if (app()->environment('production') &&
+        $this->shouldReport($e)) {
         dispatch(new \App\Jobs\SendBearyChat(
             bearychat('server')->text('New Exception!')
             ->notification('New Exception: '.get_class($e))
-            ->add($e, get_class($e))
             ->add([
                 'URL' => app('request')->fullUrl(),
                 'UserAgent' => app('request')->server('HTTP_USER_AGENT')
             ])
+            ->add($e, get_class($e))
         ));
     }
-
-    parent::report($e);
 }
 ```
 
