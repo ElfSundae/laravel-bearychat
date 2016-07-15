@@ -2,7 +2,7 @@
 
 A Laravel integration for the [BearyChat package][1] to send message to the [BearyChat][].
 
-This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4), and [Lumen](#lumen).
+This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4) and [Lumen](#lumen).
 
 + [Change Log](CHANGELOG.md)
 + :cn: [**中文文档**](README_zh.md)
