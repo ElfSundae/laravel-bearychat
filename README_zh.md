@@ -197,6 +197,43 @@ public function report(Exception $e)
 }
 ```
 
+### 响应 Outgoing
+
+使用 `Message` 对象可以很方便的响应 [Outgoing 机器人][Outgoing]：
+
+```php
+Route::post('webhook/bearychat', 'WebhookController@bearychat');
+```
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use ElfSundae\BearyChat\Message;
+
+class WebhookController extends Controller
+{
+    /**
+     * The BearyChat Outgoing Robot.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function bearychat(Request $request)
+    {
+        $message = (new Message)
+            ->text('Response for ' . $request->input('text'))
+            ->add('attachment content');
+
+        return response()->json($message);
+    }
+}
+```
+
+为 Outgoing 路由禁用 CSRF 保护，请参考 [Laravel 官方文档][CSRF]。
+
 ## 许可协议
 
 BearyChat Laravel 扩展包在 [MIT 许可协议](LICENSE)下提供和使用。
@@ -204,6 +241,8 @@ BearyChat Laravel 扩展包在 [MIT 许可协议](LICENSE)下提供和使用。
 [1]: https://github.com/ElfSundae/BearyChat
 [2]: https://github.com/ElfSundae/BearyChat/blob/master/README_zh.md
 [Webhook]: https://bearychat.com/integrations/incoming
+[Outgoing]: https://bearychat.com/integrations/outgoing
 [BearyChat]: https://bearychat.com
 [Composer]: https://getcomposer.org
 [queue system]: https://laravel.com/docs/5.2/queues
+[CSRF]: https://laravel.com/docs/5.2/routing#csrf-excluding-uris

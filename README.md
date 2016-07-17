@@ -197,6 +197,43 @@ public function report(Exception $e)
 }
 ```
 
+### Creating Outgoing Responses
+
+Need to respond to an [Outgoing Robot][Outgoing]?  Simply create a JSON response with a `Message` instance.
+
+```php
+Route::post('webhook/bearychat', 'WebhookController@bearychat');
+```
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use ElfSundae\BearyChat\Message;
+
+class WebhookController extends Controller
+{
+    /**
+     * The BearyChat Outgoing Robot.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function bearychat(Request $request)
+    {
+        $message = (new Message)
+            ->text('Response for ' . $request->input('text'))
+            ->add('attachment content');
+
+        return response()->json($message);
+    }
+}
+```
+
+You may exclude your Outgoing handler from [Laravel's CSRF protection][CSRF].
+
 ## License
 
 The BearyChat Laravel package is available under the [MIT license](LICENSE).
@@ -204,6 +241,8 @@ The BearyChat Laravel package is available under the [MIT license](LICENSE).
 [1]: https://github.com/ElfSundae/BearyChat
 [2]: https://github.com/ElfSundae/BearyChat/blob/master/README.md
 [Webhook]: https://bearychat.com/integrations/incoming
+[Outgoing]: https://bearychat.com/integrations/outgoing
 [BearyChat]: https://bearychat.com
 [Composer]: https://getcomposer.org
 [queue system]: https://laravel.com/docs/5.2/queues
+[CSRF]: https://laravel.com/docs/5.2/routing#csrf-excluding-uris
