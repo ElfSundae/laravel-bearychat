@@ -183,8 +183,7 @@ public function report(Exception $e)
 {
     parent::report($e);
 
-    if (app()->environment('production') &&
-        $this->shouldReport($e)) {
+    if (app()->environment('production') && $this->shouldReport($e)) {
         dispatch(new \App\Jobs\SendBearyChat(
             bearychat('server')->text('New Exception!')
             ->notification('New Exception: '.get_class($e))
