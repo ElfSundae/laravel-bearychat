@@ -1,5 +1,10 @@
 # BearyChat for Laravel
 
+[![Latest Stable Version](https://poser.pugx.org/elfsundae/laravel-bearychat/version)](https://packagist.org/packages/elfsundae/laravel-bearychat)
+[![Latest Unstable Version](https://poser.pugx.org/elfsundae/laravel-bearychat/v/unstable)](https://packagist.org/packages/elfsundae/laravel-bearychat)
+[![Total Downloads](https://poser.pugx.org/elfsundae/laravel-bearychat/downloads)](https://packagist.org/packages/elfsundae/laravel-bearychat)
+[![License](https://poser.pugx.org/elfsundae/laravel-bearychat/license)](https://packagist.org/packages/elfsundae/laravel-bearychat)
+
 A Laravel integration for the [BearyChat package][1] to send message to the [BearyChat][].
 
 This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4) and [Lumen](#lumen).

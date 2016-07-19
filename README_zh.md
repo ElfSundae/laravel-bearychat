@@ -1,5 +1,10 @@
 # BearyChat for Laravel
 
+[![Latest Stable Version](https://poser.pugx.org/elfsundae/laravel-bearychat/version)](https://packagist.org/packages/elfsundae/laravel-bearychat)
+[![Latest Unstable Version](https://poser.pugx.org/elfsundae/laravel-bearychat/v/unstable)](https://packagist.org/packages/elfsundae/laravel-bearychat)
+[![Total Downloads](https://poser.pugx.org/elfsundae/laravel-bearychat/downloads)](https://packagist.org/packages/elfsundae/laravel-bearychat)
+[![License](https://poser.pugx.org/elfsundae/laravel-bearychat/license)](https://packagist.org/packages/elfsundae/laravel-bearychat)
+
 这个 Laravel 扩展包封装了 [BearyChat PHP 扩展包][1]，用于向 [BearyChat][] 发送 [Incoming Webhook][Webhook] 消息。
 
 该扩展包兼容 [Laravel 5](#laravel-5) 、 [Laravel 4](#laravel-4) 和 [Lumen](#lumen)。
