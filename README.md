@@ -239,6 +239,53 @@ class WebhookController extends Controller
 
 You may exclude your Outgoing handler from [Laravel's CSRF protection][CSRF].
 
+### Customize Guzzle
+
+You can customize [Guzzle][] HTTP clients for BearyChat by calling the `customHttpClient` method on the `BearyChat` facade or `app('bearychat')`.
+
+```php
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use GuzzleHttp\Client as HttpClient;
+use BearyChat;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        BearyChat::customHttpClient(function ($name) {
+
+            if ($name == 'dev') {
+                return new HttpClient([
+                    'connect_timeout' => 10,
+                    'timeout' => 30,
+                    'verify' => false
+                ]);
+            }
+
+        });
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+}
+```
+
 ## License
 
 The BearyChat Laravel package is available under the [MIT license](LICENSE).
@@ -251,3 +298,4 @@ The BearyChat Laravel package is available under the [MIT license](LICENSE).
 [Composer]: https://getcomposer.org
 [queue system]: https://laravel.com/docs/5.2/queues
 [CSRF]: https://laravel.com/docs/5.2/routing#csrf-excluding-uris
+[Guzzle]: http://docs.guzzlephp.org

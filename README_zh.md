@@ -239,6 +239,53 @@ class WebhookController extends Controller
 
 为 Outgoing 路由禁用 CSRF 保护，请参考 [Laravel 官方文档][CSRF]。
 
+### 自定义 Guzzle
+
+你可以通过 `BearyChat` 门面或 `app('bearychat')` 的 `customHttpClient` 方法来自定义用于发送 HTTP 请求的 [Guzzle][] client。
+
+```php
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use GuzzleHttp\Client as HttpClient;
+use BearyChat;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        BearyChat::customHttpClient(function ($name) {
+
+            if ($name == 'dev') {
+                return new HttpClient([
+                    'connect_timeout' => 10,
+                    'timeout' => 30,
+                    'verify' => false
+                ]);
+            }
+
+        });
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+}
+```
+
 ## 许可协议
 
 BearyChat Laravel 扩展包在 [MIT 许可协议](LICENSE)下提供和使用。
@@ -251,3 +298,4 @@ BearyChat Laravel 扩展包在 [MIT 许可协议](LICENSE)下提供和使用。
 [Composer]: https://getcomposer.org
 [queue system]: https://laravel.com/docs/5.2/queues
 [CSRF]: https://laravel.com/docs/5.2/routing#csrf-excluding-uris
+[Guzzle]: http://docs.guzzlephp.org
