@@ -3,6 +3,7 @@
 namespace ElfSundae\BearyChat\Laravel;
 
 use ElfSundae\BearyChat\Client;
+use Closure;
 
 class ClientManager
 {
@@ -19,6 +20,13 @@ class ClientManager
      * @var array
      */
     protected $clients = [];
+
+    /**
+     * The registered custom HTTP client creator.
+     *
+     * @var \Closure
+     */
+    protected $httpClientCreator;
 
     /**
      * Indicate whether the application version is Laravel 4.
@@ -92,7 +100,8 @@ class ClientManager
 
         return new Client(
             $config['webhook'],
-            isset($config['message_defaults']) ? $config['message_defaults'] : []
+            isset($config['message_defaults']) ? $config['message_defaults'] : [],
+            $this->getHttpClient($name)
         );
     }
 
@@ -109,5 +118,30 @@ class ClientManager
         }
 
         return $this->app['config']["bearychat.{$name}"];
+    }
+
+    /**
+     * Get the HTTP client.
+     *
+     * @return \GuzzleHttp\Client|null
+     */
+    protected function getHttpClient($name)
+    {
+        if ($creator = $this->httpClientCreator) {
+            return $creator($name);
+        }
+    }
+
+    /**
+     * Register a custom HTTP client creator Closure.
+     *
+     * @param  \Closure  $creator
+     * @return $this
+     */
+    public function customHttpClient(Closure $creator)
+    {
+        $this->httpClientCreator = $creator;
+
+        return $this;
     }
 }
