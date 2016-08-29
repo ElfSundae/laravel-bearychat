@@ -32,8 +32,8 @@ class ServiceProvider extends LaravelServiceProvider
         $appVersion = method_exists($app, 'version') ? $app->version() : $app::VERSION;
 
         $this->isLumen = str_contains($appVersion, 'Lumen');
-        $this->isLaravel4 = (int)$appVersion == 4;
-        $this->isLaravel5 = (int)$appVersion == 5;
+        $this->isLaravel4 = (int) $appVersion == 4;
+        $this->isLaravel5 = (int) $appVersion == 5;
     }
 
     /**
@@ -47,7 +47,7 @@ class ServiceProvider extends LaravelServiceProvider
             $this->package('elfsundae/laravel-bearychat', 'bearychat', __DIR__);
         } else {
             $this->publishes([
-                $this->getConfigFromPath() => $this->getConfigToPath()
+                $this->getConfigFromPath() => $this->getConfigToPath(),
             ], 'config');
         }
     }
@@ -59,7 +59,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        if (!$this->isLaravel4) {
+        if (! $this->isLaravel4) {
             $this->mergeConfigFrom($this->getConfigFromPath(), 'bearychat');
         }
 

@@ -31,7 +31,7 @@ class ClientManager
     /**
      * Indicate whether the application version is Laravel 4.
      *
-     * @var boolean
+     * @var bool
      */
     protected $isLaravel4 = false;
 
@@ -47,7 +47,7 @@ class ClientManager
 
         $appVersion = method_exists($app, 'version') ? $app->version() : $app::VERSION;
 
-        $this->isLaravel4 = (int)$appVersion == 4;
+        $this->isLaravel4 = (int) $appVersion == 4;
     }
 
     /**
