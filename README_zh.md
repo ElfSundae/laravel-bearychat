@@ -1,7 +1,6 @@
 # BearyChat for Laravel
 
 [![Latest Stable Version](https://poser.pugx.org/elfsundae/laravel-bearychat/version)](https://packagist.org/packages/elfsundae/laravel-bearychat)
-[![Latest Unstable Version](https://poser.pugx.org/elfsundae/laravel-bearychat/v/unstable)](https://packagist.org/packages/elfsundae/laravel-bearychat)
 [![Total Downloads](https://poser.pugx.org/elfsundae/laravel-bearychat/downloads)](https://packagist.org/packages/elfsundae/laravel-bearychat)
 [![License](https://poser.pugx.org/elfsundae/laravel-bearychat/license)](https://packagist.org/packages/elfsundae/laravel-bearychat)
 
@@ -11,6 +10,7 @@
 
 + [更新日志](CHANGELOG.md)
 + :us: [**Documentation in English**](README.md)
++ **Laravel Notification Channel:** [BearyChatChannel][]
 
 ## 安装
 
@@ -299,3 +299,4 @@ BearyChat Laravel 扩展包在 [MIT 许可协议](LICENSE)下提供和使用。
 [queue system]: https://laravel.com/docs/5.2/queues
 [CSRF]: https://laravel.com/docs/5.2/routing#csrf-excluding-uris
 [Guzzle]: http://docs.guzzlephp.org
+[BearyChatChannel]: https://github.com/laravel-notification-channels/bearychat
