@@ -5,10 +5,9 @@ use Symfony\CS\Finder;
 use Symfony\CS\FixerInterface;
 
 $finder = Finder::create()
-    ->exclude([
-        'vendor', 'tests'
-    ])
-    ->in(__DIR__);
+    ->in([
+        __DIR__.'/src',
+    ]);
 
 $fixers = [
     'blankline_after_open_tag',
@@ -47,7 +46,7 @@ $fixers = [
     'phpdoc_no_access',
     'phpdoc_no_package',
     'phpdoc_scalar',
-    // 'phpdoc_short_description',
+    'phpdoc_short_description',
     'phpdoc_to_comment',
     'phpdoc_trim',
     'phpdoc_type_to_var',
