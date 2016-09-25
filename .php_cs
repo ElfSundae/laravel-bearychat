@@ -7,6 +7,7 @@ use Symfony\CS\FixerInterface;
 $finder = Finder::create()
     ->in([
         __DIR__.'/src',
+        __DIR__.'/tests',
     ]);
 
 $fixers = [
