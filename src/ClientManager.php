@@ -39,7 +39,6 @@ class ClientManager
      * Create a new client manager instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return void
      */
     public function __construct($app)
     {
@@ -109,7 +108,7 @@ class ClientManager
      * Get the BearyChat configuration.
      *
      * @param  string  $name
-     * @return array
+     * @return mixed
      */
     protected function getConfig($name)
     {

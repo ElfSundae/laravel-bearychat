@@ -38,7 +38,7 @@ return [
             'webhook' => '',
             // 'message_defaults' => [
             //     'attachment_color' => '#f5f5f5',
-            // ]
+            // ],
         ],
 
         // 'admin' => [

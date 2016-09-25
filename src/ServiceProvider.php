@@ -23,7 +23,6 @@ class ServiceProvider extends LaravelServiceProvider
      * Create a new service provider instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @return void
      */
     public function __construct($app)
     {
