@@ -2,8 +2,9 @@
 
 namespace ElfSundae\BearyChat\Laravel;
 
-use ElfSundae\BearyChat\Client;
 use Closure;
+use ElfSundae\BearyChat\Client;
+use Illuminate\Contracts\Foundation\Application;
 
 class ClientManager
 {
@@ -40,7 +41,7 @@ class ClientManager
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      */
-    public function __construct($app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
 

@@ -62,8 +62,8 @@ class ServiceProvider extends LaravelServiceProvider
             $this->mergeConfigFrom($this->getConfigFromPath(), 'bearychat');
         }
 
-        $this->app->singleton('bearychat', function () {
-            return new ClientManager($this->app);
+        $this->app->singleton('bearychat', function ($app) {
+            return new ClientManager($app);
         });
 
         $this->app->alias('bearychat', 'ElfSundae\BearyChat\Laravel\ClientManager');
