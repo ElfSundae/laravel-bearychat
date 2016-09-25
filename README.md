@@ -9,14 +9,34 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ElfSundae/Laravel-BearyChat/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/Laravel-BearyChat/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/elfsundae/laravel-bearychat.svg?style=flat-square)](https://packagist.org/packages/elfsundae/laravel-bearychat)
 
-A Laravel integration for the [BearyChat package][1] to send message to the [BearyChat][].
+A Laravel integration for the [BearyChat package][1] to send [robot messages][Webhook] to the [BearyChat][].
 
 This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4) and [Lumen](#lumen).
 
-+ [Change Log](CHANGELOG.md)
-+ :cn: [**中文文档**](README_zh.md)
-+ **Laravel Notification Channel:** [BearyChatChannel][]
+> - :cn: [**中文文档**](README_zh.md)
+> - **Laravel Notification Channel:** [BearyChatChannel][]
 
+## Contents
+
+<!-- MarkdownTOC -->
+
+- [Installation](#installation)
+    - [Laravel 5](#laravel-5)
+    - [Laravel 4](#laravel-4)
+    - [Lumen](#lumen)
+- [Usage](#usage)
+    - [Basic Usage](#basic-usage)
+    - [Asynchronous Message](#asynchronous-message)
+    - [Sending Laravel Exceptions](#sending-laravel-exceptions)
+    - [Creating Outgoing Responses](#creating-outgoing-responses)
+    - [Customize Guzzle](#customize-guzzle)
+- [Changelog](#changelog)
+- [Testing](#testing)
+- [License](#license)
+
+<!-- /MarkdownTOC -->
+
+<a name="installation"></a>
 ## Installation
 
 You can install this package using the [Composer][] manager:
@@ -27,6 +47,7 @@ $ composer require elfsundae/laravel-bearychat
 
 After updating composer, you may configure your app according to the following steps:
 
+<a name="laravel-5"></a>
 ### Laravel 5
 
 Add the service provider to the `providers` array in `config/app.php`:
@@ -43,6 +64,7 @@ $ php artisan vendor:publish --provider="ElfSundae\BearyChat\Laravel\ServiceProv
 
 Next, configure your BearyChat clients by editing the config file in `config/bearychat.php`.
 
+<a name="laravel-4"></a>
 ### Laravel 4
 
 Add the service provider to the `providers` array in `config/app.php`:
@@ -59,6 +81,7 @@ $ php artisan config:publish elfsundae/laravel-bearychat
 
 Next, configure your BearyChat clients by editing the config file in `app/config/packages/elfsundae/laravel-bearychat/config.php`.
 
+<a name="lumen"></a>
 ### Lumen
 
 Register the service provider in `bootstrap/app.php`:
@@ -83,9 +106,13 @@ Now you can configure your BearyChat clients by editing `config/bearychat.php`.
 
 If you would like to use the `BearyChat` facade, you should uncomment the `$app->withFacades()` call in your `bootstrap/app.php` file.
 
+<a name="usage"></a>
 ## Usage
 
-You can obtain the BearyChat `Client` using the `BearyChat` facade, or the `bearychat()` helper function. 
+<a name="basic-usage"></a>
+### Basic Usage
+
+You can obtain the BearyChat `Client` using the `BearyChat` facade, or the `bearychat()` helper function.
 
 ```php
 BearyChat::send('message');
@@ -103,6 +130,7 @@ bearychat('admin')->send('bar');
 
 > **For more advanced usage, please [read the documentation][2] of the BearyChat PHP package.**
 
+<a name="asynchronous-message"></a>
 ### Asynchronous Message
 
 Sending a BearyChat message actually requests the Incoming Webhook via synchronous HTTP, so it will slow down your app execution. For sending asynchronous messages, You can queue them using Laravel's awesome [queue system][].
@@ -224,6 +252,7 @@ dispatch(new SendBearyChat(
 ));
 ```
 
+<a name="sending-laravel-exceptions"></a>
 ### Sending Laravel Exceptions
 
 A common usage of BearyChat is real-time reporting Laravel exceptions. Just override the `report` method of your exception handler:
@@ -243,7 +272,7 @@ public function report(Exception $e)
 
     if (app()->environment('production') && $this->shouldReport($e)) {
         dispatch(
-            (new SendBearyChat())
+            (new SendBearyChat)
             ->client('server')
             ->text('New Exception!')
             ->notification('New Exception: '.get_class($e))
@@ -254,6 +283,7 @@ public function report(Exception $e)
 }
 ```
 
+<a name="creating-outgoing-responses"></a>
 ### Creating Outgoing Responses
 
 Need to respond to an [Outgoing Robot][Outgoing]?  Simply create a JSON response with a `Message` instance.
@@ -291,6 +321,7 @@ class WebhookController extends Controller
 
 You may exclude your Outgoing handler from [Laravel's CSRF protection][CSRF].
 
+<a name="customize-guzzle"></a>
 ### Customize Guzzle
 
 You can customize [Guzzle][] HTTP clients for BearyChat by calling the `customHttpClient` method on the `BearyChat` facade or `app('bearychat')`.
@@ -314,7 +345,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         BearyChat::customHttpClient(function ($name) {
-
             if ($name == 'dev') {
                 return new HttpClient([
                     'connect_timeout' => 10,
@@ -322,22 +352,24 @@ class AppServiceProvider extends ServiceProvider
                     'verify' => false
                 ]);
             }
-
         });
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 }
 ```
 
+<a name="changelog"></a>
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+<a name="testing"></a>
+## Testing
+
+```sh
+$ composer test
+```
+
+<a name="license"></a>
 ## License
 
 The BearyChat Laravel package is available under the [MIT license](LICENSE).

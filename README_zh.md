@@ -9,14 +9,34 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ElfSundae/Laravel-BearyChat/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/Laravel-BearyChat/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/elfsundae/laravel-bearychat.svg?style=flat-square)](https://packagist.org/packages/elfsundae/laravel-bearychat)
 
-这个 Laravel 扩展包封装了 [BearyChat PHP 扩展包][1]，用于向 [BearyChat][] 发送 [Incoming Webhook][Webhook] 消息。
+这个 Laravel 扩展包封装了 [BearyChat PHP 扩展包][1]，用于向 [BearyChat][] 发送 [机器人消息][Webhook]。
 
 该扩展包兼容 [Laravel 5](#laravel-5) 、 [Laravel 4](#laravel-4) 和 [Lumen](#lumen)。
 
-+ [更新日志](CHANGELOG.md)
-+ :us: [**Documentation in English**](README.md)
-+ **Laravel Notification Channel:** [BearyChatChannel][]
+> - :us: [**Documentation in English**](README.md)
+> - **Laravel Notification Channel:** [BearyChatChannel][]
 
+## 目录
+
+<!-- MarkdownTOC -->
+
+- [安装](#安装)
+    - [Laravel 5](#laravel-5)
+    - [Laravel 4](#laravel-4)
+    - [Lumen](#lumen)
+- [使用方法](#使用方法)
+    - [基础用法](#基础用法)
+    - [异步消息](#异步消息)
+    - [报告 Laravel 异常](#报告-laravel-异常)
+    - [响应 Outgoing](#响应-outgoing)
+    - [自定义 Guzzle](#自定义-guzzle)
+- [更新日志](#更新日志)
+- [测试](#测试)
+- [许可协议](#许可协议)
+
+<!-- /MarkdownTOC -->
+
+<a name="安装"></a>
 ## 安装
 
 你可以使用 [Composer][] 安装此扩展包：
@@ -27,6 +47,7 @@ $ composer require elfsundae/laravel-bearychat
 
 更新完 composer 后，你可以根据以下指引来配置你的 Laravel 应用。
 
+<a name="laravel-5"></a>
 ### Laravel 5
 
 将 service provider 添加到 `config/app.php` 中的 `providers` 数组中。
@@ -43,6 +64,7 @@ $ php artisan vendor:publish --provider="ElfSundae\BearyChat\Laravel\ServiceProv
 
 编辑配置文件 `config/bearychat.php` ，配置 webhook 和消息预设值。
 
+<a name="laravel-4"></a>
 ### Laravel 4
 
 将 service provider 添加到 `config/app.php` 中的 `providers` 数组中。
@@ -59,6 +81,7 @@ $ php artisan config:publish elfsundae/laravel-bearychat
 
 编辑配置文件 `app/config/packages/elfsundae/laravel-bearychat/config.php` ，配置 webhook 和消息预设值。
 
+<a name="lumen"></a>
 ### Lumen
 
 在 `bootstrap/app.php` 中注册 service provider:
@@ -83,7 +106,11 @@ $app->configure('bearychat');
 
 如果你想使用 `BearyChat` 门面 (facade)，必须在 `bootstrap/app.php` 文件中取消 `$app->withFacades()` 的代码注释。
 
+<a name="使用方法"></a>
 ## 使用方法
+
+<a name="基础用法"></a>
+### 基础用法
 
 通过 `BearyChat` 门面 (facade) 或者 `bearychat()` 帮助函数，可以得到 BearyChat `Client` 实例。
 
@@ -103,6 +130,7 @@ bearychat('admin')->send('bar');
 
 > **更多高级用法，请参阅 [BearyChat PHP 扩展包的文档][2]。**
 
+<a name="异步消息"></a>
 ### 异步消息
 
 发送一条 BearyChat 消息实际上是向 Incoming Webhook 发送同步 HTTP 请求，所以这在一定程度上会延长应用的响应时间。可以使用 Laravel 强悍的[队列系统][queue system]来异步发送消息。
@@ -224,6 +252,7 @@ dispatch(new SendBearyChat(
 ));
 ```
 
+<a name="报告-laravel-异常"></a>
 ### 报告 Laravel 异常
 
 BearyChat 的一个常见用法是实时报告 Laravel 应用的异常或错误日志。要实现这个功能，只需要重载现有的异常处理类中的 `report` 方法，并添加发送异常信息到 BearyChat ：
@@ -243,7 +272,7 @@ public function report(Exception $e)
 
     if (app()->environment('production') && $this->shouldReport($e)) {
         dispatch(
-            (new SendBearyChat())
+            (new SendBearyChat)
             ->client('server')
             ->text('New Exception!')
             ->notification('New Exception: '.get_class($e))
@@ -254,6 +283,7 @@ public function report(Exception $e)
 }
 ```
 
+<a name="响应-outgoing"></a>
 ### 响应 Outgoing
 
 使用 `Message` 对象可以很方便的响应 [Outgoing 机器人][Outgoing]：
@@ -291,6 +321,7 @@ class WebhookController extends Controller
 
 为 Outgoing 路由禁用 CSRF 保护，请参考 [Laravel 官方文档][CSRF]。
 
+<a name="自定义-guzzle"></a>
 ### 自定义 Guzzle
 
 你可以通过 `BearyChat` 门面或 `app('bearychat')` 的 `customHttpClient` 方法来自定义用于发送 HTTP 请求的 [Guzzle][] client。
@@ -314,7 +345,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         BearyChat::customHttpClient(function ($name) {
-
             if ($name == 'dev') {
                 return new HttpClient([
                     'connect_timeout' => 10,
@@ -322,22 +352,24 @@ class AppServiceProvider extends ServiceProvider
                     'verify' => false
                 ]);
             }
-
         });
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 }
 ```
 
+<a name="更新日志"></a>
+## 更新日志
+
+详见 [CHANGELOG](CHANGELOG.md) 文件。
+
+<a name="测试"></a>
+## 测试
+
+```sh
+$ composer test
+```
+
+<a name="许可协议"></a>
 ## 许可协议
 
 BearyChat Laravel 扩展包在 [MIT 许可协议](LICENSE)下提供和使用。
