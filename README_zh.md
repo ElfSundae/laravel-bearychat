@@ -20,49 +20,65 @@
 ## 安装
 
 你可以使用 [Composer][] 安装此扩展包：
+
+```sh
+$ composer require elfsundae/laravel-bearychat
 ```
-composer require elfsundae/laravel-bearychat
-```
+
 更新完 composer 后，你可以根据以下指引来配置你的 Laravel 应用。
 
 ### Laravel 5
 
 将 service provider 添加到 `config/app.php` 中的 `providers` 数组中。
+
 ```php
 ElfSundae\BearyChat\Laravel\ServiceProvider::class,
 ```
+
 然后发布 BearyChat 的配置文件：
-```shell
+
+```sh
 $ php artisan vendor:publish --provider="ElfSundae\BearyChat\Laravel\ServiceProvider"
 ```
+
 编辑配置文件 `config/bearychat.php` ，配置 webhook 和消息预设值。
 
 ### Laravel 4
 
 将 service provider 添加到 `config/app.php` 中的 `providers` 数组中。
+
 ```php
 'ElfSundae\BearyChat\Laravel\ServiceProvider',
 ```
+
 然后发布 BearyChat 的配置文件：
-```shell
+
+```sh
 $ php artisan config:publish elfsundae/laravel-bearychat
 ```
+
 编辑配置文件 `app/config/packages/elfsundae/laravel-bearychat/config.php` ，配置 webhook 和消息预设值。
 
 ### Lumen
 
 在 `bootstrap/app.php` 中注册 service provider:
+
 ```php
 $app->register(ElfSundae\BearyChat\Laravel\ServiceProvider::class);
 ```
+
 然后从扩展包目录拷贝 BearyChat 配置文件到你应用的 `config/bearychat.php`:
-```shell
+
+```sh
 $ cp vendor/elfsundae/laravel-bearychat/src/config/config.php config/bearychat.php
 ```
+
 为了使配置生效，必须在 `bootstrap/app.php` 中激活：
+
 ```php
 $app->configure('bearychat');
 ```
+
 编辑配置文件 `config/bearychat.php` ，配置 webhook 和消息预设值。
 
 如果你想使用 `BearyChat` 门面 (facade)，必须在 `bootstrap/app.php` 文件中取消 `$app->withFacades()` 的代码注释。
@@ -91,27 +107,32 @@ bearychat('admin')->send('bar');
 
 发送一条 BearyChat 消息实际上是向 Incoming Webhook 发送同步 HTTP 请求，所以这在一定程度上会延长应用的响应时间。可以使用 Laravel 强悍的[队列系统][queue system]来异步发送消息。
 
-下面是一个 Laravel 5.2 应用的队列任务的示例：
+下面是一个 Laravel 5.3 应用的队列任务的示例：
 
 ```php
 <?php
 
 namespace App\Jobs;
 
-use App\Jobs\Job;
+use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use ElfSundae\BearyChat\Message;
-use Exception;
-use Log;
 
-class SendBearyChat extends Job implements ShouldQueue
+class SendBearyChat implements ShouldQueue
 {
-    use SerializesModels, InteractsWithQueue;
+    use InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * The Message instance for sending.
+     * The BearyChat client.
+     *
+     * @var \ElfSundae\BearyChat\Client
+     */
+    protected $client;
+
+    /**
+     * The Message instance to be sent.
      *
      * @var \ElfSundae\BearyChat\Message
      */
@@ -119,10 +140,58 @@ class SendBearyChat extends Job implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
+     * @param  mixed  $message  A Message instance, or parameters which can be handled
+     *                          by the `send` method of a Message instance.
      */
-    public function __construct($message)
+    public function __construct($message = null)
     {
-        $this->message = $message;
+        if ($message instanceof Message) {
+            $this->message = $message;
+        } elseif (is_string($message)) {
+            $this->text($message);
+
+            if (func_num_args() > 1) {
+                if (is_bool($markdown = func_get_arg(1))) {
+                    $this->markdown(func_get_arg(1));
+
+                    if (func_num_args() > 2) {
+                        $this->notification(func_get_arg(2));
+                    }
+                } else {
+                    call_user_func_array([$this, 'add'], array_slice(func_get_args(), 1));
+                }
+            }
+        }
+    }
+
+    /**
+     * Any unhandled methods will be sent to the Message instance.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return $this
+     */
+    public function __call($method, $parameters)
+    {
+        $message = $this->message ?: new Message($this->client ?: bearychat());
+
+        $this->message = call_user_func_array([$message, $method], $parameters);
+
+        return $this;
+    }
+
+    /**
+     * Set the client with client name.
+     *
+     * @param  string  $name
+     * @return $this
+     */
+    public function client($name)
+    {
+        $this->client = bearychat($name);
+
+        return $this;
     }
 
     /**
@@ -130,18 +199,10 @@ class SendBearyChat extends Job implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->message instanceof Message) {
-            try {
-                $this->message->send();
-            } catch (Exception $e) {
-                Log::error(
-                    'Exception when processing '.get_class($this)." \n".$e,
-                    $this->message->toArray()
-                );
-                $this->release(10);
-            }
+        if ($this->client) {
+            $this->client->sendMessage($this->message);
         } else {
-            $this->delete();
+            $this->message->send();
         }
     }
 }
@@ -150,30 +211,17 @@ class SendBearyChat extends Job implements ShouldQueue
 然后在任意包含了 `DispatchesJobs` trait 的类中调用 `dispatch` 方法，或者使用全局的 `dispatch()` 函数，就可以将 `SendBearyChat` 任务派遣到队列中执行。例如：
 
 ```php
-$order = PayOrder::create($request->all());
+dispatch(new SendBearyChat('hello'));
 
-dispatch(new \App\Jobs\SendBearyChat(
-    bearychat()->text('New order!')
-    ->add($order, $order->name, $order->image_url)
+dispatch(new SendBearyChat('hello', true, 'notification'));
+
+dispatch(new SendBearyChat('hello', 'attachment content', 'attachment title', 'http://path/to/image', '#f00'));
+
+dispatch((new SendBearyChat)->client('server')->text('hello')->add('attachment'));
+
+dispatch(new SendBearyChat(
+    bearychat('admin')->text('New order!')->add($order, $order->name, $order->image_url)
 ));
-```
-
-或者，你也可以创建一个帮助函数来派遣发送任务：
-
-```php
-if (! function_exists('dispatch_bearychat'))
-{
-    /**
-     * Dispatch a SendBearyChat job.
-     *
-     * @param  \ElfSundae\BearyChat\Message  $message
-     * @return mixed
-     */
-    function dispatch_bearychat($message)
-    {
-        return dispatch(new \App\Jobs\SendBearyChat($message));
-    }
-}
 ```
 
 ### 报告 Laravel 异常
@@ -194,15 +242,14 @@ public function report(Exception $e)
     parent::report($e);
 
     if (app()->environment('production') && $this->shouldReport($e)) {
-        dispatch(new \App\Jobs\SendBearyChat(
-            bearychat('server')->text('New Exception!')
+        dispatch(
+            (new SendBearyChat())
+            ->client('server')
+            ->text('New Exception!')
             ->notification('New Exception: '.get_class($e))
-            ->add([
-                'URL' => app('request')->fullUrl(),
-                'UserAgent' => app('request')->server('HTTP_USER_AGENT')
-            ])
-            ->add($e, get_class($e))
-        ));
+            ->markdown(false)
+            ->add(str_limit($e, 1300), get_class($e), null, '#a0a0a0')
+        );
     }
 }
 ```
