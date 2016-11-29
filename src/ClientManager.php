@@ -4,14 +4,13 @@ namespace ElfSundae\BearyChat\Laravel;
 
 use Closure;
 use ElfSundae\BearyChat\Client;
-use Illuminate\Contracts\Foundation\Application;
 
 class ClientManager
 {
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var mixed
      */
     protected $app;
 
@@ -39,9 +38,9 @@ class ClientManager
     /**
      * Create a new client manager instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  mixed  $app
      */
-    public function __construct(Application $app)
+    public function __construct($app)
     {
         $this->app = $app;
 
