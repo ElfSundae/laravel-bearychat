@@ -4,11 +4,7 @@ use Symfony\CS\Config;
 use Symfony\CS\Finder;
 use Symfony\CS\FixerInterface;
 
-$finder = Finder::create()
-    ->in([
-        __DIR__.'/src',
-        __DIR__.'/tests',
-    ]);
+$finder = Finder::create()->in(__DIR__);
 
 $fixers = [
     'blankline_after_open_tag',
