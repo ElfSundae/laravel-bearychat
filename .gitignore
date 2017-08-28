@@ -1,5 +1,4 @@
 /vendor
-build
+/build
 composer.phar
 composer.lock
-.php_cs.cache

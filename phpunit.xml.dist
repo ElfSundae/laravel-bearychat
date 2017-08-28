@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Laravel-BearyChat Test Suite">
+        <testsuite name="elfsundae/laravel-bearychat Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
