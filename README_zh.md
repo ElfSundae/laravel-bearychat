@@ -1,12 +1,12 @@
 # BearyChat for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/elfsundae/laravel-bearychat.svg?style=flat-square)](https://packagist.org/packages/elfsundae/laravel-bearychat)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://img.shields.io/travis/ElfSundae/Laravel-BearyChat/master.svg?style=flat-square)](https://travis-ci.org/ElfSundae/Laravel-BearyChat)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Build Status](https://img.shields.io/travis/ElfSundae/laravel-bearychat/master.svg?style=flat-square)](https://travis-ci.org/ElfSundae/laravel-bearychat)
 [![StyleCI](https://styleci.io/repos/62485352/shield)](https://styleci.io/repos/62485352)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/e735bfe1-aa58-49d9-b380-1023fb0e93bf.svg?style=flat-square)](https://insight.sensiolabs.com/projects/e735bfe1-aa58-49d9-b380-1023fb0e93bf)
-[![Quality Score](https://img.shields.io/scrutinizer/g/ElfSundae/Laravel-BearyChat.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/Laravel-BearyChat)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ElfSundae/Laravel-BearyChat/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/Laravel-BearyChat/?branch=master)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/311bf772-b936-423c-ad4c-07f4b44078b7.svg?style=flat-square)](https://insight.sensiolabs.com/projects/311bf772-b936-423c-ad4c-07f4b44078b7)
+[![Quality Score](https://img.shields.io/scrutinizer/g/ElfSundae/laravel-bearychat.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/laravel-bearychat)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ElfSundae/laravel-bearychat/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/laravel-bearychat/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/elfsundae/laravel-bearychat.svg?style=flat-square)](https://packagist.org/packages/elfsundae/laravel-bearychat)
 
 这个 Laravel 扩展包封装了 [BearyChat PHP 扩展包][1]，用于向 [BearyChat][] 发送 [机器人消息][Webhook]。
@@ -20,19 +20,19 @@
 
 <!-- MarkdownTOC -->
 
-- [安装](#安装)
+- [安装](#%E5%AE%89%E8%A3%85)
     - [Laravel 5](#laravel-5)
     - [Laravel 4](#laravel-4)
     - [Lumen](#lumen)
-- [使用方法](#使用方法)
-    - [基础用法](#基础用法)
-    - [异步消息](#异步消息)
-    - [报告 Laravel 异常](#报告-laravel-异常)
-    - [响应 Outgoing](#响应-outgoing)
-    - [自定义 Guzzle](#自定义-guzzle)
-- [更新日志](#更新日志)
-- [测试](#测试)
-- [许可协议](#许可协议)
+- [使用方法](#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
+    - [基础用法](#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95)
+    - [异步消息](#%E5%BC%82%E6%AD%A5%E6%B6%88%E6%81%AF)
+    - [报告 Laravel 异常](#%E6%8A%A5%E5%91%8A-laravel-%E5%BC%82%E5%B8%B8)
+    - [响应 Outgoing](#%E5%93%8D%E5%BA%94-outgoing)
+    - [自定义 Guzzle](#%E8%87%AA%E5%AE%9A%E4%B9%89-guzzle)
+- [更新日志](#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
+- [测试](#%E6%B5%8B%E8%AF%95)
+- [许可协议](#%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE)
 
 <!-- /MarkdownTOC -->
 
