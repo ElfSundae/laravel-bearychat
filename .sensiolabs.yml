@@ -1,0 +1,3 @@
+rules:
+    php.object_parameter_not_type_hinted:
+        enabled: false
