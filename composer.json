@@ -1,24 +1,25 @@
 {
     "name": "elfsundae/laravel-bearychat",
-    "description": "A Laravel integration for the BearyChat package to send message to the BearyChat.",
+    "description": "Laravel integration for BearyChat.",
     "keywords": ["bearychat", "laravel", "incoming", "webhook", "outgoing", "robot"],
+    "homepage": "https://github.com/ElfSundae/laravel-bearychat",
     "license": "MIT",
-    "homepage": "https://github.com/ElfSundae/Laravel-BearyChat",
     "authors": [
         {
             "name": "Elf Sundae",
-            "email": "elf.sundae@gmail.com"
+            "email": "elf.sundae@gmail.com",
+            "homepage": "https://0x123.com"
         }
     ],
     "require": {
         "php": ">=5.4.0",
         "illuminate/support": "4.2.*|5.*",
-        "elfsundae/bearychat": "~1.1"
+        "elfsundae/bearychat": "~1.2"
     },
     "require-dev": {
-        "mockery/mockery": "^0.9.5",
-        "orchestra/testbench": "~3.0",
-        "phpunit/phpunit": "4.*"
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~5.7",
+        "orchestra/testbench": "~3.0"
     },
     "autoload": {
         "psr-4": {
