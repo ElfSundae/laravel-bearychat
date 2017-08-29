@@ -2,6 +2,7 @@
 
 namespace ElfSundae\BearyChat\Laravel;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 class ServiceProvider extends LaravelServiceProvider
@@ -13,11 +14,11 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected $defer = false;
 
-    protected $isLaravel4 = false;
+    protected $isLaravel4;
 
-    protected $isLumen = false;
+    protected $isLaravel5;
 
-    protected $isLaravel5 = false;
+    protected $isLumen;
 
     /**
      * Create a new service provider instance.
@@ -30,13 +31,13 @@ class ServiceProvider extends LaravelServiceProvider
 
         $appVersion = method_exists($app, 'version') ? $app->version() : $app::VERSION;
 
-        $this->isLumen = str_contains($appVersion, 'Lumen');
         $this->isLaravel4 = (int) $appVersion == 4;
         $this->isLaravel5 = (int) $appVersion == 5;
+        $this->isLumen = Str::contains($appVersion, 'Lumen');
     }
 
     /**
-     * Bootstrap the application events.
+     * Bootstrap any application services.
      *
      * @return void
      */
