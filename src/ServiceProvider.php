@@ -48,7 +48,7 @@ class ServiceProvider extends LaravelServiceProvider
         } else {
             $this->publishes([
                 $this->getConfigFromPath() => $this->getConfigToPath(),
-            ], 'config');
+            ], 'laravel-bearychat');
         }
     }
 
