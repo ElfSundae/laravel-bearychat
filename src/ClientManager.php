@@ -50,18 +50,6 @@ class ClientManager
     }
 
     /**
-     * Dynamically call the default client instance.
-     *
-     * @param  string  $method
-     * @param  array   $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        return call_user_func_array([$this->client(), $method], $parameters);
-    }
-
-    /**
      * Get a client instance.
      *
      * @param  string  $name
@@ -142,5 +130,17 @@ class ClientManager
         $this->httpClientCreator = $creator;
 
         return $this;
+    }
+
+    /**
+     * Dynamically call the default client instance.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->client(), $method], $parameters);
     }
 }
