@@ -67,7 +67,7 @@ class ServiceProvider extends LaravelServiceProvider
             return new ClientManager($app);
         });
 
-        $this->app->alias('bearychat', 'ElfSundae\BearyChat\Laravel\ClientManager');
+        $this->app->alias('bearychat', ClientManager::class);
 
         $this->aliasFacades();
     }
