@@ -89,20 +89,15 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function getConfigToPath()
     {
-        return $this->isLumen ?
-                base_path('config/bearychat.php') :
-                config_path('bearychat.php');
+        return $this->isLumen ? base_path('config/bearychat.php') : config_path('bearychat.php');
     }
 
     protected function aliasFacades()
     {
         if (class_exists('Illuminate\Foundation\AliasLoader')) {
-            // For Laravel
-            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('BearyChat', \ElfSundae\BearyChat\Laravel\Facade::class);
+            \Illuminate\Foundation\AliasLoader::getInstance()->alias('BearyChat', Facade::class);
         } else {
-            // For Lumen
-            class_alias('ElfSundae\BearyChat\Laravel\Facade', 'BearyChat');
+            class_alias(Facade::class, 'BearyChat');
         }
     }
 
