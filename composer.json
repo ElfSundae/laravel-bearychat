@@ -34,6 +34,16 @@
             "ElfSundae\\BearyChat\\Laravel\\Test\\": "tests"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ElfSundae\\BearyChat\\Laravel\\ServiceProvider"
+            ],
+            "aliases": {
+                "BearyChat": "ElfSundae\\BearyChat\\Laravel\\Facade"
+            }
+        }
+    },
     "scripts": {
         "test": "vendor/bin/phpunit"
     }
