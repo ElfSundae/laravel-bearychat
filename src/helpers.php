@@ -2,7 +2,7 @@
 
 if (! function_exists('bearychat')) {
     /**
-     * Get the BearyChat client instance.
+     * Get the BearyChat Client instance.
      *
      * @param  string  $name
      * @return \ElfSundae\BearyChat\Client
