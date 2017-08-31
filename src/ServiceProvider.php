@@ -107,6 +107,11 @@ class ServiceProvider extends LaravelServiceProvider
         return $this->isLumen ? base_path('config/bearychat.php') : config_path('bearychat.php');
     }
 
+    /**
+     * Register facade alias.
+     *
+     * @return void
+     */
     protected function aliasFacades()
     {
         if (class_exists('Illuminate\Foundation\AliasLoader')) {
