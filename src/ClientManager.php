@@ -3,6 +3,7 @@
 namespace ElfSundae\BearyChat\Laravel;
 
 use Closure;
+use Illuminate\Support\Arr;
 use ElfSundae\BearyChat\Client;
 
 class ClientManager
@@ -13,6 +14,27 @@ class ClientManager
      * @var mixed
      */
     protected $app;
+
+    /**
+     * The default client name.
+     *
+     * @var string
+     */
+    protected $defaultName;
+
+    /**
+     * The defaults for all clients.
+     *
+     * @var array
+     */
+    protected $clientsDefaults = [];
+
+    /**
+     * The clients config.
+     *
+     * @var array
+     */
+    protected $clientsConfig = [];
 
     /**
      * The array of resolved BearyChat clients.
@@ -29,13 +51,6 @@ class ClientManager
     protected $httpClientCreator;
 
     /**
-     * Indicate whether the application version is Laravel 4.
-     *
-     * @var bool
-     */
-    protected $isLaravel4 = false;
-
-    /**
      * Create a new client manager instance.
      *
      * @param  mixed  $app
@@ -43,22 +58,81 @@ class ClientManager
     public function __construct($app)
     {
         $this->app = $app;
+    }
 
-        $appVersion = method_exists($app, 'version') ? $app->version() : $app::VERSION;
+    /**
+     * Get the default client name.
+     *
+     * @return string
+     */
+    public function getDefaultName()
+    {
+        return $this->defaultName ?: Arr::first(array_keys($this->clientsConfig));
+    }
 
-        $this->isLaravel4 = (int) $appVersion == 4;
+    /**
+     * Set the default client name.
+     *
+     * @param  string  $name
+     * @return $this
+     */
+    public function setDefaultName($name)
+    {
+        $this->defaultName = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get the clients defaults.
+     *
+     * @return array
+     */
+    public function getClientsDefaults()
+    {
+        return $this->clientsDefaults;
+    }
+
+    /**
+     * Set the clients defaults.
+     *
+     * @param  array  $defaults
+     * @return $this
+     */
+    public function setClientsDefaults($defaults)
+    {
+        if (is_array($defaults)) {
+            $this->clientsDefaults = $defaults;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the clients config.
+     *
+     * @param  array  $config
+     * @return $this
+     */
+    public function setClientsConfig($config)
+    {
+        if (is_array($config)) {
+            $this->clientsConfig = $config;
+        }
+
+        return $this;
     }
 
     /**
      * Get a client instance.
      *
-     * @param  string  $name
+     * @param  string|null  $name
      * @return \ElfSundae\BearyChat\Client
      */
     public function client($name = null)
     {
         if (is_null($name)) {
-            $name = $this->getConfig('default');
+            $name = $this->getDefaultName();
         }
 
         return $this->clients[$name] = $this->get($name);
@@ -83,28 +157,35 @@ class ClientManager
      */
     protected function resolve($name)
     {
-        $config = $this->getConfig('clients.'.$name);
+        $config = $this->getConfigForClient($name);
 
         return new Client(
             $config['webhook'],
-            isset($config['message_defaults']) ? $config['message_defaults'] : [],
+            $config['message_defaults'],
             $this->getHttpClient($name)
         );
     }
 
     /**
-     * Get the BearyChat configuration.
+     * Get client config for the given client name.
      *
      * @param  string  $name
-     * @return mixed
+     * @return array
      */
-    protected function getConfig($name)
+    protected function getConfigForClient($name)
     {
-        if ($this->isLaravel4) {
-            return $this->app['config']->get("bearychat::{$name}");
+        $config = $this->clientsConfig[$name];
+
+        if (empty($config['webhook'])) {
+            $config['webhook'] = Arr::get($this->clientsDefaults, 'webhook');
         }
 
-        return $this->app['config']["bearychat.{$name}"];
+        $config['message_defaults'] = array_merge(
+            Arr::get($this->clientsDefaults, 'message_defaults', []),
+            Arr::get($config, 'message_defaults', [])
+        );
+
+        return $config;
     }
 
     /**

@@ -79,7 +79,10 @@ class ServiceProvider extends LaravelServiceProvider
         }
 
         $this->app->singleton('bearychat', function ($app) {
-            return new ClientManager($app);
+            return (new ClientManager($app))
+                ->setDefaultName($this->getConfig('default'))
+                ->setClientsDefaults($this->getConfig('clients_defaults'))
+                ->setClientsConfig($this->getConfig('clients'));
         });
 
         $this->app->alias('bearychat', ClientManager::class);
@@ -119,6 +122,20 @@ class ServiceProvider extends LaravelServiceProvider
         } else {
             class_alias(Facade::class, 'BearyChat');
         }
+    }
+
+    /**
+     * Get the bearychat configuration.
+     *
+     * @param  string  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    protected function getConfig($key, $default = null)
+    {
+        $prefix = 'bearychat'.($this->isLaravel4 ? '::' : '.');
+
+        return $this->app['config']->get($prefix.$key, $default);
     }
 
     /**
