@@ -10,25 +10,13 @@ class ServiceProviderTest extends TestCase
 {
     public function testInstantiation()
     {
+        $this->app->register(ServiceProvider::class);
+
         $this->assertInstanceOf(
             ServiceProvider::class,
             $this->app->getProvider(ServiceProvider::class)
         );
-    }
 
-    public function testInstantiationOfClientManager()
-    {
-        $this->assertInstanceOf(
-            ClientManager::class,
-            $this->app->make('bearychat')
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getPackageProviders($app)
-    {
-        return [ServiceProvider::class];
+        $this->assertInstanceOf(ClientManager::class, $this->app->make('bearychat'));
     }
 }

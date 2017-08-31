@@ -2,55 +2,104 @@
 
 namespace ElfSundae\BearyChat\Laravel\Test;
 
+use Exception;
+use Mockery as m;
 use ElfSundae\BearyChat\Client;
 use ElfSundae\BearyChat\Message;
 use Orchestra\Testbench\TestCase;
-use ElfSundae\BearyChat\Laravel\ClientManager;
+use GuzzleHttp\Client as HttpClient;
 use ElfSundae\BearyChat\Laravel\ServiceProvider;
 
 class ClientManagerTest extends TestCase
 {
-    public function testInstantiation()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getPackageProviders($app)
     {
-        $this->assertInstanceOf(ClientManager::class, new ClientManager($this->app));
+        return [ServiceProvider::class];
     }
 
-    public function testInstantiationOfClient()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getEnvironmentSetUp($app)
     {
-        $this->assertInstanceOf(Client::class, $this->getManager()->client());
+        $app['config']['bearychat'] = [
+            'default' => 'default-client',
+            'clients_defaults' => [
+                'webhook' => 'http://default/webhook',
+                'message_defaults' => [
+                    'user' => 'default-user',
+                ],
+            ],
+            'clients' => [
+                'default-client' => [],
+                'foo-client' => [
+                    'webhook' => 'http://foo/webhook',
+                    'message_defaults' => [
+                        'channel' => 'foo-channel',
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function testConfig()
+    {
+        $this->assertEquals('default-client', $this->getManager()->getDefaultName());
+        $this->assertEquals([
+            'webhook' => 'http://default/webhook',
+            'message_defaults' => [
+                'user' => 'default-user',
+            ],
+        ], $this->getManager()->getClientsDefaults());
+    }
+
+    public function testGetClient()
+    {
+        $this->assertInstanceOf(Client::class, $this->getClient());
+        $this->assertEquals('http://default/webhook', $this->getClient()->getWebhook());
+        $this->assertEquals([
+            'user' => 'default-user',
+        ], $this->getClient()->getMessageDefaults());
+        $this->assertSame($this->getClient(), $this->getClient());
+
+        $defaultClient = $this->getManager()->client($this->getManager()->getDefaultName());
+        $this->assertSame($defaultClient, $this->getClient());
+
+        $this->assertInstanceOf(Client::class, $this->getClient('foo-client'));
+        $this->assertEquals('http://foo/webhook', $this->getClient('foo-client')->getWebhook());
+        $this->assertEquals([
+            'user' => 'default-user',
+            'channel' => 'foo-channel',
+        ], $this->getClient('foo-client')->getMessageDefaults());
+        $this->assertSame($this->getClient('foo-client'), $this->getClient('foo-client'));
+    }
+
+    public function testCustomHttpClient()
+    {
+        $httpClient = m::mock(HttpClient::class)
+            ->shouldReceive('post')
+            ->andThrow(MyException::class)
+            ->mock();
+
+        $this->getManager()->customHttpClient(function ($name) use ($httpClient) {
+            $this->assertEquals('foo-client', $name);
+
+            return $httpClient;
+        });
+
+        $this->expectException(MyException::class);
+        $this->getClient('foo-client')->send();
+
+        $this->getManager()->customHttpClient(null);
     }
 
     public function testDynamicallyCall()
     {
-        $this->assertInstanceOf(Message::class, $this->getManager()->text('foo'));
-    }
-
-    public function testResolvedDefaultClient()
-    {
-        $this->app['config']->set('bearychat.default', 'foo');
-
-        $this->assertSame($this->getClient(), $this->getClient('foo'));
-    }
-
-    public function testClientConfig()
-    {
-        $this->app['config']->set('bearychat', [
-            'default' => 'foo',
-            'clients' => [
-                'foo' => [
-                    'webhook' => 'fake.endpoint',
-                    'message_defaults' => [
-                        'user' => 'elf',
-                    ],
-                ],
-            ],
-        ]);
-
-        $client = $this->getClient();
-
-        $this->assertSame('fake.endpoint', $client->getWebhook());
-
-        $this->assertSame('elf', $client->getMessageDefaults('user'));
+        $message = $this->getManager()->text('foo');
+        $this->assertInstanceOf(Message::class, $message);
     }
 
     protected function getManager()
@@ -62,12 +111,8 @@ class ClientManagerTest extends TestCase
     {
         return $this->getManager()->client($name);
     }
+}
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getPackageProviders($app)
-    {
-        return [ServiceProvider::class];
-    }
+class MyException extends Exception
+{
 }
