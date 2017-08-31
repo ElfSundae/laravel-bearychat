@@ -9,12 +9,12 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ElfSundae/laravel-bearychat/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/laravel-bearychat/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/elfsundae/laravel-bearychat.svg?style=flat-square)](https://packagist.org/packages/elfsundae/laravel-bearychat)
 
-这个 Laravel 扩展包封装了 [BearyChat PHP 扩展包][1]，用于向 [BearyChat][] 发送 [机器人消息][Webhook]。
+这个 Laravel 扩展包封装了 [BearyChat PHP 扩展包](https://github.com/ElfSundae/bearychat)，用于向 BearyChat 发送机器人消息。
 
-该扩展包兼容 [Laravel 5](#laravel-5) 、 [Laravel 4](#laravel-4) 和 [Lumen](#lumen)。
+该扩展包兼容 [Laravel 5](#laravel-5) 、 [Laravel 4](#laravel-4) 和 [Lumen](#lumen) 。
 
 > - :us: [**Documentation in English**](README.md)
-> - **Laravel Notification Channel:** [BearyChatChannel][]
+> - **Laravel Notification Channel:** [BearyChatChannel](https://github.com/laravel-notification-channels/bearychat)
 
 ## 目录
 
@@ -38,7 +38,7 @@
 
 ## 安装
 
-你可以使用 [Composer][] 安装此扩展包：
+你可以使用 [Composer](https://getcomposer.org) 安装此扩展包：
 
 ```sh
 $ composer require elfsundae/laravel-bearychat
@@ -122,11 +122,11 @@ BearyChat::client('dev')->send('foo');
 bearychat('admin')->send('bar');
 ```
 
-> **更多高级用法，请参阅 [BearyChat PHP 扩展包的文档][2]。**
+> **更多高级用法，请参阅 [BearyChat PHP 扩展包的文档](https://github.com/ElfSundae/bearychat/blob/master/README_zh.md)。**
 
 ### 异步消息
 
-发送一条 BearyChat 消息实际上是向 Incoming Webhook 发送同步 HTTP 请求，所以这在一定程度上会延长应用的响应时间。可以使用 Laravel 强悍的[队列系统][queue system]来异步发送消息。
+发送一条 BearyChat 消息实际上是向 Incoming Webhook 发送同步 HTTP 请求，所以这在一定程度上会延长应用的响应时间。可以使用 Laravel 强悍的[队列系统](https://laravel.com/docs/queues)来异步发送消息。
 
 下面是一个 Laravel 5.3 应用的队列任务的示例：
 
@@ -277,7 +277,7 @@ public function report(Exception $e)
 
 ### 响应 Outgoing
 
-使用 `Message` 对象可以很方便的响应 [Outgoing 机器人][Outgoing]：
+使用 `Message` 对象可以很方便的响应 [Outgoing 机器人](https://bearychat.com/integrations/outgoing)：
 
 ```php
 Route::post('webhook/bearychat', 'WebhookController@bearychat');
@@ -310,11 +310,11 @@ class WebhookController extends Controller
 }
 ```
 
-为 Outgoing 路由禁用 CSRF 保护，请参考 [Laravel 官方文档][CSRF]。
+为 Outgoing 路由禁用 CSRF 保护，请参考 [Laravel 官方文档](https://laravel.com/docs/csrf#csrf-excluding-uris)。
 
 ### 自定义 Guzzle
 
-你可以通过 `BearyChat` 门面或 `app('bearychat')` 的 `customHttpClient` 方法来自定义用于发送 HTTP 请求的 [Guzzle][] client。
+你可以通过 `BearyChat` 门面或 `app('bearychat')` 的 `customHttpClient` 方法来自定义用于发送 HTTP 请求的 [Guzzle](http://docs.guzzlephp.org) client。
 
 ```php
 <?php
@@ -360,14 +360,3 @@ $ composer test
 ## 许可协议
 
 BearyChat Laravel 扩展包在 [MIT 许可协议](LICENSE)下提供和使用。
-
-[1]: https://github.com/ElfSundae/BearyChat
-[2]: https://github.com/ElfSundae/BearyChat/blob/master/README_zh.md
-[Webhook]: https://bearychat.com/integrations/incoming
-[Outgoing]: https://bearychat.com/integrations/outgoing
-[BearyChat]: https://bearychat.com
-[Composer]: https://getcomposer.org
-[queue system]: https://laravel.com/docs/queues
-[CSRF]: https://laravel.com/docs/5.2/routing#csrf-excluding-uris
-[Guzzle]: http://docs.guzzlephp.org
-[BearyChatChannel]: https://github.com/laravel-notification-channels/bearychat

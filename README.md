@@ -9,12 +9,12 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ElfSundae/laravel-bearychat/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/laravel-bearychat/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/elfsundae/laravel-bearychat.svg?style=flat-square)](https://packagist.org/packages/elfsundae/laravel-bearychat)
 
-A Laravel integration for the [BearyChat package][1] to send [robot messages][Webhook] to the [BearyChat][].
+The Laravel integration for [BearyChat](https://github.com/ElfSundae/bearychat) to send robot messages.
 
 This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4) and [Lumen](#lumen).
 
 > - :cn: [**中文文档**](README_zh.md)
-> - **Laravel Notification Channel:** [BearyChatChannel][]
+> - **Laravel Notification Channel:** [BearyChatChannel](https://github.com/laravel-notification-channels/bearychat)
 
 ## Contents
 
@@ -38,7 +38,7 @@ This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4)
 
 ## Installation
 
-You can install this package using the [Composer][] manager:
+You can install this package using the [Composer](https://getcomposer.org) manager:
 
 ```sh
 $ composer require elfsundae/laravel-bearychat
@@ -122,11 +122,11 @@ BearyChat::client('dev')->send('foo');
 bearychat('admin')->send('bar');
 ```
 
-> **For more advanced usage, please [read the documentation][2] of the BearyChat PHP package.**
+> **For more advanced usage, please [read the documentation](https://github.com/ElfSundae/bearychat/blob/master/README.md) of the BearyChat PHP package.**
 
 ### Asynchronous Message
 
-Sending a BearyChat message actually requests the Incoming Webhook via synchronous HTTP, so it will slow down your app execution. For sending asynchronous messages, You can queue them using Laravel's awesome [queue system][].
+Sending a BearyChat message actually requests the Incoming Webhook via synchronous HTTP, so it will slow down your app execution. For sending asynchronous messages, You can queue them using Laravel's awesome [queue system](https://laravel.com/docs/queues).
 
 Here is an example of the Queueable Job for Laravel 5.3:
 
@@ -277,7 +277,7 @@ public function report(Exception $e)
 
 ### Creating Outgoing Responses
 
-Need to respond to an [Outgoing Robot][Outgoing]?  Simply create a JSON response with a `Message` instance.
+Need to respond to an [Outgoing Robot](https://bearychat.com/integrations/outgoing)?  Simply create a JSON response with a `Message` instance.
 
 ```php
 Route::post('webhook/bearychat', 'WebhookController@bearychat');
@@ -310,11 +310,11 @@ class WebhookController extends Controller
 }
 ```
 
-You may exclude your Outgoing handler from [Laravel's CSRF protection][CSRF].
+You may exclude your Outgoing handler from [Laravel's CSRF protection](https://laravel.com/docs/csrf#csrf-excluding-uris).
 
 ### Customize Guzzle
 
-You can customize [Guzzle][] HTTP clients for BearyChat by calling the `customHttpClient` method on the `BearyChat` facade or `app('bearychat')`.
+You can customize [Guzzle](http://docs.guzzlephp.org) HTTP clients for BearyChat by calling the `customHttpClient` method on the `BearyChat` facade or `app('bearychat')`.
 
 ```php
 <?php
@@ -360,14 +360,3 @@ $ composer test
 ## License
 
 The BearyChat Laravel package is available under the [MIT license](LICENSE).
-
-[1]: https://github.com/ElfSundae/BearyChat
-[2]: https://github.com/ElfSundae/BearyChat/blob/master/README.md
-[Webhook]: https://bearychat.com/integrations/incoming
-[Outgoing]: https://bearychat.com/integrations/outgoing
-[BearyChat]: https://bearychat.com
-[Composer]: https://getcomposer.org
-[queue system]: https://laravel.com/docs/queues
-[CSRF]: https://laravel.com/docs/5.2/routing#csrf-excluding-uris
-[Guzzle]: http://docs.guzzlephp.org
-[BearyChatChannel]: https://github.com/laravel-notification-channels/bearychat
