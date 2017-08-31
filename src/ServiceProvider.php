@@ -14,11 +14,26 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected $defer = false;
 
-    protected $isLaravel4;
+    /**
+     * Indicates if the application is Laravel 4.
+     *
+     * @var bool
+     */
+    protected $isLaravel4 = false;
 
-    protected $isLaravel5;
+    /**
+     * Indicates if the application is Laravel 5.
+     *
+     * @var bool
+     */
+    protected $isLaravel5 = false;
 
-    protected $isLumen;
+    /**
+     * Indicates if the application is Lumen.
+     *
+     * @var bool
+     */
+    protected $isLumen = false;
 
     /**
      * Create a new service provider instance.
