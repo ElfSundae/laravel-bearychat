@@ -30,7 +30,7 @@ return [
     */
 
     'clients_defaults' => [
-        // 'webhook' => 'https://hook.bearychat.com/=',
+        //
     ],
 
     /*
