@@ -2,9 +2,9 @@
 
 namespace ElfSundae\BearyChat\Laravel\Test;
 
+use Orchestra\Testbench\TestCase;
 use ElfSundae\BearyChat\Laravel\ClientManager;
 use ElfSundae\BearyChat\Laravel\ServiceProvider;
-use Orchestra\Testbench\TestCase;
 
 class ServiceProviderTest extends TestCase
 {
