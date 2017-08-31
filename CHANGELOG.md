@@ -1,5 +1,10 @@
 # Release Notes
 
+## 1.1.5 (2017-08-31)
+
+- Support Laravel Package Discovery
+- Support config defaults for all clients
+
 ## 1.1.4 (2016-11-29)
 
 - Fixed wrong type-hinted dependency in the construction of `ClientManager`. [b238125](https://github.com/ElfSundae/laravel-bearychat/commit/b23812594eacf483922a90d086f5846f7fb1d7d4)
