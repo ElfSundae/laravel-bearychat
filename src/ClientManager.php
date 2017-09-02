@@ -167,43 +167,46 @@ class ClientManager
      */
     protected function resolve($name)
     {
-        $config = $this->getConfigForClient($name);
-
         return new Client(
-            $config['webhook'],
-            $config['message_defaults'],
-            $this->getHttpClient($name)
+            $this->getWebhookForClient($name),
+            $this->getMessageDefaultsForClient($name),
+            $this->getHttpClientForClient($name)
         );
     }
 
     /**
-     * Get client config for the given client name.
+     * Get the webhook for the given client.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    public function getWebhookForClient($name)
+    {
+        return Arr::get($this->clientsConfig[$name], 'webhook') ?:
+            Arr::get($this->clientsDefaults, 'webhook');
+    }
+
+    /**
+     * Get the message defaults for the given client.
      *
      * @param  string  $name
      * @return array
      */
-    protected function getConfigForClient($name)
+    public function getMessageDefaultsForClient($name)
     {
-        $config = $this->clientsConfig[$name];
-
-        if (empty($config['webhook'])) {
-            $config['webhook'] = Arr::get($this->clientsDefaults, 'webhook');
-        }
-
-        $config['message_defaults'] = array_merge(
+        return array_merge(
             Arr::get($this->clientsDefaults, 'message_defaults', []),
-            Arr::get($config, 'message_defaults', [])
+            Arr::get($this->clientsConfig[$name], 'message_defaults', [])
         );
-
-        return $config;
     }
 
     /**
-     * Get the HTTP client.
+     * Get the HTTP client for the given client.
      *
+     * @param  string  $name
      * @return \GuzzleHttp\Client|null
      */
-    protected function getHttpClient($name)
+    protected function getHttpClientForClient($name)
     {
         if ($creator = $this->httpClientCreator) {
             return $creator($name);
