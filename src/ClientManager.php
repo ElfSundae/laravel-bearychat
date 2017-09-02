@@ -109,6 +109,16 @@ class ClientManager
     }
 
     /**
+     * Get the clients config.
+     *
+     * @return array
+     */
+    public function getClientsConfig()
+    {
+        return $this->clientsConfig;
+    }
+
+    /**
      * Set the clients config.
      *
      * @param  array  $config
