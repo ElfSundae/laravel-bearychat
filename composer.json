@@ -46,5 +46,8 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
+    },
+    "suggest": {
+        "laravel-notification-channels/bearychat": "BearyChat notifications channel for Laravel 5."
     }
 }
