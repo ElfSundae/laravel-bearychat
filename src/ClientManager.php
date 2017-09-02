@@ -9,13 +9,6 @@ use ElfSundae\BearyChat\Client;
 class ClientManager
 {
     /**
-     * The application instance.
-     *
-     * @var mixed
-     */
-    protected $app;
-
-    /**
      * The default client name.
      *
      * @var string
@@ -49,16 +42,6 @@ class ClientManager
      * @var \Closure
      */
     protected $httpClientCreator;
-
-    /**
-     * Create a new client manager instance.
-     *
-     * @param  mixed  $app
-     */
-    public function __construct($app)
-    {
-        $this->app = $app;
-    }
 
     /**
      * Get the default client name.

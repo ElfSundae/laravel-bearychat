@@ -79,7 +79,7 @@ class ServiceProvider extends LaravelServiceProvider
         }
 
         $this->app->singleton('bearychat', function ($app) {
-            return (new ClientManager($app))
+            return (new ClientManager)
                 ->setDefaultName($this->getConfig('default'))
                 ->setClientsDefaults($this->getConfig('clients_defaults'))
                 ->setClientsConfig($this->getConfig('clients'));
