@@ -335,7 +335,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as HttpClient;
-use BearyChat;
+use ElfSundae\BearyChat\Laravel\BearyChat;
 
 class AppServiceProvider extends ServiceProvider
 {
