@@ -2,7 +2,6 @@
 
 namespace ElfSundae\BearyChat\Laravel;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 class ServiceProvider extends LaravelServiceProvider
@@ -36,16 +35,6 @@ class ServiceProvider extends LaravelServiceProvider
         });
 
         $this->app->alias('bearychat', ClientManager::class);
-    }
-
-    /**
-     * Detemines if the application is Lumen.
-     *
-     * @return bool
-     */
-    protected function isLumen()
-    {
-        return strpos($this->app->version(), 'Lumen') !== false;
     }
 
     /**
