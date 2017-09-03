@@ -50,7 +50,19 @@ class ClientManager
      */
     public function getDefaultName()
     {
-        return $this->defaultName ?: Arr::first(array_keys($this->clientsConfig));
+        return $this->defaultName ?: $this->getFirstClientName();
+    }
+
+    /**
+     * Get the first client name.
+     *
+     * @return string
+     */
+    protected function getFirstClientName()
+    {
+        reset($this->clientsConfig);
+
+        return key($this->clientsConfig);
     }
 
     /**
