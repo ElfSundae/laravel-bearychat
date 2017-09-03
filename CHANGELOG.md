@@ -1,5 +1,10 @@
 # Release Notes
 
+## Unreleased
+
+- Remove support to Laravel 4
+- Deferred service provider, you should register Facade alias yourself in `config/app.php`
+
 ## 1.1.5 (2017-08-31)
 
 - Support Laravel Package Discovery

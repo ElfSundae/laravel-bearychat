@@ -23,8 +23,7 @@ return [
     |
     | Supported keys: 'webhook', 'message_defaults'.
     |
-    | All possible keys for 'message_defaults' are listed in
-    | `ElfSundae\BearyChat\MessageDefaults`:
+    | All possible keys for 'message_defaults' are listed in `MessageDefaults`:
     | "channel", "user", "markdown" (boolean), "notification", "attachment_color".
     |
     */
@@ -40,14 +39,13 @@ return [
     |
     | Here are each of the BearyChat clients setup for your application.
     |
+    | Supported keys: 'webhook', 'message_defaults'.
+    |
     */
 
     'clients' => [
         'default' => [
-            'webhook' => 'https://hook.bearychat.com/=',
-            'message_defaults' => [
-                'channel' => 'all',
-            ],
+            //
         ],
     ],
 
