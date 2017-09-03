@@ -1,9 +1,9 @@
 # Release Notes
 
-## Unreleased
+## 1.2.0 (2017-09-03)
 
 - Remove support to Laravel 4
-- Deferred service provider, you should register Facade alias yourself in `config/app.php`
+- Deferred service provider, you should register facade alias yourself in `config/app.php` if you want to use it
 
 ## 1.1.5 (2017-08-31)
 
