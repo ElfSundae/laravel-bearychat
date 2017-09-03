@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.6.4",
         "illuminate/support": "5.*",
         "elfsundae/bearychat": "~1.3"
     },
@@ -40,7 +40,7 @@
                 "ElfSundae\\BearyChat\\Laravel\\ServiceProvider"
             ],
             "aliases": {
-                "BearyChat": "ElfSundae\\BearyChat\\Laravel\\Facade"
+                "BearyChat": "ElfSundae\\BearyChat\\Laravel\\BearyChat"
             }
         }
     },
