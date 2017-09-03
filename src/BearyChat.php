@@ -2,12 +2,12 @@
 
 namespace ElfSundae\BearyChat\Laravel;
 
-use Illuminate\Support\Facades\Facade as LaravelFacade;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \ElfSundae\BearyChat\Laravel\ClientManager
  */
-class Facade extends LaravelFacade
+class BearyChat extends Facade
 {
     /**
      * Get the registered name of the component.
