@@ -54,15 +54,27 @@ Add the service provider to the `providers` array in `config/app.php`:
 ElfSundae\BearyChat\Laravel\ServiceProvider::class,
 ```
 
+Register facade:
+
+```php
+'BearyChat' => ElfSundae\BearyChat\Laravel\BearyChat::class,
+```
+
 Then publish the config file:
 
 ```sh
-$ php artisan vendor:publish --provider="ElfSundae\BearyChat\Laravel\ServiceProvider"
+$ php artisan vendor:publish --tag=bearychat
 ```
 
 Next, configure your BearyChat clients by editing the config file in `config/bearychat.php`.
 
 ### Laravel 4
+
+Please install version [`1.1.x`](https://github.com/ElfSundae/laravel-bearychat/tree/1.1.x):
+
+```sh
+$ composer require elfsundae/laravel-bearychat:1.1.*
+```
 
 Add the service provider to the `providers` array in `config/app.php`:
 
@@ -89,7 +101,7 @@ $app->register(ElfSundae\BearyChat\Laravel\ServiceProvider::class);
 Then copy the config file from this package to your app's `config/bearychat.php`:
 
 ```sh
-$ cp vendor/elfsundae/laravel-bearychat/src/config/config.php config/bearychat.php
+$ cp vendor/elfsundae/laravel-bearychat/config/bearychat.php config/bearychat.php
 ```
 
 Next, you should enable this config file in `bootstrap/app.php`:

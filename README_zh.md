@@ -54,15 +54,27 @@ $ composer require elfsundae/laravel-bearychat
 ElfSundae\BearyChat\Laravel\ServiceProvider::class,
 ```
 
+注册 facade :
+
+```php
+'BearyChat' => ElfSundae\BearyChat\Laravel\BearyChat::class,
+```
+
 然后发布 BearyChat 的配置文件：
 
 ```sh
-$ php artisan vendor:publish --provider="ElfSundae\BearyChat\Laravel\ServiceProvider"
+$ php artisan vendor:publish --tag=bearychat
 ```
 
 编辑配置文件 `config/bearychat.php` ，配置 webhook 和消息预设值。
 
 ### Laravel 4
+
+请安装 [`1.1.x`](https://github.com/ElfSundae/laravel-bearychat/tree/1.1.x) 版本：
+
+```sh
+$ composer require elfsundae/laravel-bearychat:1.1.*
+```
 
 将 service provider 添加到 `config/app.php` 中的 `providers` 数组中。
 
@@ -89,7 +101,7 @@ $app->register(ElfSundae\BearyChat\Laravel\ServiceProvider::class);
 然后从扩展包目录拷贝 BearyChat 配置文件到你应用的 `config/bearychat.php`:
 
 ```sh
-$ cp vendor/elfsundae/laravel-bearychat/src/config/config.php config/bearychat.php
+$ cp vendor/elfsundae/laravel-bearychat/config/bearychat.php config/bearychat.php
 ```
 
 为了使配置生效，必须在 `bootstrap/app.php` 中激活：
