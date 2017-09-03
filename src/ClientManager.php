@@ -128,33 +128,15 @@ class ClientManager
             $name = $this->getDefaultName();
         }
 
-        return $this->clients[$name] = $this->get($name);
-    }
+        if (! isset($this->clients[$name])) {
+            $this->clients[$name] = new Client(
+                $this->getWebhookForClient($name),
+                $this->getMessageDefaultsForClient($name),
+                $this->getHttpClientForClient($name)
+            );
+        }
 
-    /**
-     * Attempt to get the client.
-     *
-     * @param  string  $name
-     * @return \ElfSundae\BearyChat\Client
-     */
-    protected function get($name)
-    {
-        return isset($this->clients[$name]) ? $this->clients[$name] : $this->resolve($name);
-    }
-
-    /**
-     * Resolve the given client.
-     *
-     * @param  string  $name
-     * @return \ElfSundae\BearyChat\Client
-     */
-    protected function resolve($name)
-    {
-        return new Client(
-            $this->getWebhookForClient($name),
-            $this->getMessageDefaultsForClient($name),
-            $this->getHttpClientForClient($name)
-        );
+        return $this->clients[$name];
     }
 
     /**
