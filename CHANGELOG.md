@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.3.0 (2017-09-15)
+
+- Add `SendBearyChat` job class
+
 ## 1.2.0 (2017-09-03)
 
 - Remove support to Laravel 4
