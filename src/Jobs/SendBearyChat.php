@@ -10,6 +10,11 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
+/**
+ * Queueable BearyChat Job for Laravel 5.4 or later.
+ *
+ * @see https://laravel.com/docs/queues
+ */
 class SendBearyChat implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
