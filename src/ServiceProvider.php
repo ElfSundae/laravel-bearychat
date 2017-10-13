@@ -7,13 +7,6 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 class ServiceProvider extends LaravelServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
      * Register the service provider.
      *
      * @return void
@@ -35,15 +28,5 @@ class ServiceProvider extends LaravelServiceProvider
         });
 
         $this->app->alias('bearychat', ClientManager::class);
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return string[]
-     */
-    public function provides()
-    {
-        return ['bearychat', ClientManager::class];
     }
 }
