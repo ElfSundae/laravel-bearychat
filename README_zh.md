@@ -104,15 +104,7 @@ $app->register(ElfSundae\BearyChat\Laravel\ServiceProvider::class);
 $ cp vendor/elfsundae/laravel-bearychat/config/bearychat.php config/bearychat.php
 ```
 
-为了使配置生效，必须在 `bootstrap/app.php` 中激活：
-
-```php
-$app->configure('bearychat');
-```
-
 编辑配置文件 `config/bearychat.php` ，配置 webhook 和消息预设值。
-
-如果你想使用 `BearyChat` 门面 (facade)，必须在 `bootstrap/app.php` 文件中取消 `$app->withFacades()` 的代码注释。
 
 ## 使用方法
 

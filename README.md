@@ -104,15 +104,7 @@ Then copy the config file from this package to your app's `config/bearychat.php`
 $ cp vendor/elfsundae/laravel-bearychat/config/bearychat.php config/bearychat.php
 ```
 
-Next, you should enable this config file in `bootstrap/app.php`:
-
-```php
-$app->configure('bearychat');
-```
-
 Now you can configure your BearyChat clients by editing `config/bearychat.php`.
-
-If you would like to use the `BearyChat` facade, you should uncomment the `$app->withFacades()` call in your `bootstrap/app.php` file.
 
 ## Usage
 

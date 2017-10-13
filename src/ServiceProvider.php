@@ -13,6 +13,10 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
+        if (is_a($this->app, 'Laravel\Lumen\Application')) {
+            $this->app->configure('bearychat');
+        }
+
         $this->mergeConfigFrom($from = __DIR__.'/../config/bearychat.php', 'bearychat');
 
         if ($this->app->runningInConsole()) {
