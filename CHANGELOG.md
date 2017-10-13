@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.4.0 (2017-10-14)
+
+- Add example config for clients
+- Automatic call `app->configure('bearychat')` for Lumen
+- Change `$defer` to `false` in service provider since it merges configuration
+
 ## 1.3.0 (2017-09-15)
 
 - Add `SendBearyChat` job class
