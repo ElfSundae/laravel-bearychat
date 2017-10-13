@@ -44,9 +44,14 @@ return [
     */
 
     'clients' => [
+
         'default' => [
-            //
+            'webhook' => 'https://hook.bearychat.com/=xxx/incoming/',
+            'message_defaults' => [
+                //
+            ],
         ],
+
     ],
 
 ];
