@@ -16,8 +16,7 @@ class ServiceProvider extends LaravelServiceProvider
         $this->mergeConfigFrom($from = __DIR__.'/../config/bearychat.php', 'bearychat');
 
         if ($this->app->runningInConsole()) {
-            $to = (function_exists('config_path')) ? config_path('bearychat.php') : base_path('config/bearychat.php');
-            $this->publishes([$from => $to], 'bearychat');
+            $this->publishes([$from => base_path('config/bearychat.php')], 'bearychat');
         }
 
         $this->app->singleton('bearychat', function ($app) {
