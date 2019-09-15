@@ -17,8 +17,8 @@
         "elfsundae/bearychat": "^1.3.1"
     },
     "require-dev": {
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "mockery/mockery": "~0.9|~1.0",
+        "phpunit/phpunit": "~5.7|~6.0|~7.0"
     },
     "autoload": {
         "psr-4": {
