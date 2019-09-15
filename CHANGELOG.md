@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.4.1 (2019-09-15)
+
+- Add support for Laravel 6
+
 ## 1.4.0 (2017-10-14)
 
 - Add example config for clients
