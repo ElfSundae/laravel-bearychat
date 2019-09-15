@@ -11,7 +11,7 @@
 
 这个 Laravel 扩展包封装了 [BearyChat PHP 扩展包](https://github.com/ElfSundae/bearychat)，用于向 BearyChat 发送机器人消息。
 
-该扩展包兼容 [Laravel 5](#laravel-5) 、 [Laravel 4](#laravel-4) 和 [Lumen](#lumen) 。
+该扩展包兼容 Laravel 4/5/6 以及 Lumen 。
 
 > - :us: [**Documentation in English**](README.md)
 > - **Laravel Notification Channel:** [BearyChatChannel](https://github.com/laravel-notification-channels/bearychat)
@@ -21,7 +21,7 @@
 <!-- MarkdownTOC -->
 
 - [安装](#%E5%AE%89%E8%A3%85)
-    - [Laravel 5](#laravel-5)
+    - [Laravel 5/6](#laravel-56)
     - [Laravel 4](#laravel-4)
     - [Lumen](#lumen)
 - [使用方法](#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
@@ -46,7 +46,9 @@ $ composer require elfsundae/laravel-bearychat
 
 更新完 composer 后，你可以根据以下指引来配置你的 Laravel 应用。
 
-### Laravel 5
+### Laravel 5/6
+
+> Laravel 5.5+ 会自动注册 service provider 。
 
 将 service provider 添加到 `config/app.php` 中的 `providers` 数组中。
 

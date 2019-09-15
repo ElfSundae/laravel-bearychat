@@ -11,7 +11,7 @@
 
 The Laravel integration for [BearyChat](https://github.com/ElfSundae/bearychat) to send robot messages.
 
-This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4) and [Lumen](#lumen).
+This package is compatible with Laravel 4/5/6 and Lumen.
 
 > - :cn: [**中文文档**](README_zh.md)
 > - **Laravel Notification Channel:** [BearyChatChannel](https://github.com/laravel-notification-channels/bearychat)
@@ -21,7 +21,7 @@ This package is compatible with [Laravel 5](#laravel-5), [Laravel 4](#laravel-4)
 <!-- MarkdownTOC -->
 
 - [Installation](#installation)
-    - [Laravel 5](#laravel-5)
+    - [Laravel 5/6](#laravel-56)
     - [Laravel 4](#laravel-4)
     - [Lumen](#lumen)
 - [Usage](#usage)
@@ -46,7 +46,9 @@ $ composer require elfsundae/laravel-bearychat
 
 After updating composer, you may configure your app according to the following steps:
 
-### Laravel 5
+### Laravel 5/6
+
+> For Laravel 5.5+, the service provider will automatically get registered.
 
 Add the service provider to the `providers` array in `config/app.php`:
 
