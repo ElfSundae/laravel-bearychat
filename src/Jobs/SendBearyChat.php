@@ -2,13 +2,13 @@
 
 namespace ElfSundae\BearyChat\Laravel\Jobs;
 
-use Illuminate\Bus\Queueable;
 use ElfSundae\BearyChat\Client;
 use ElfSundae\BearyChat\Message;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Queueable BearyChat Job for Laravel 5.4 or later.

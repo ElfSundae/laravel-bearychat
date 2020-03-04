@@ -3,9 +3,9 @@
 namespace ElfSundae\BearyChat\Laravel\Test;
 
 use ElfSundae\BearyChat\Client;
-use PHPUnit\Framework\TestCase;
-use GuzzleHttp\Client as HttpClient;
 use ElfSundae\BearyChat\Laravel\ClientManager;
+use GuzzleHttp\Client as HttpClient;
+use PHPUnit\Framework\TestCase;
 
 class ClientManagerTest extends TestCase
 {

@@ -3,8 +3,8 @@
 namespace ElfSundae\BearyChat\Laravel;
 
 use Closure;
-use Illuminate\Support\Arr;
 use ElfSundae\BearyChat\Client;
+use Illuminate\Support\Arr;
 
 class ClientManager
 {
